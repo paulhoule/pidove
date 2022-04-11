@@ -25,6 +25,7 @@ public class Iterables {
         return false;
     }
 
+    @SafeVarargs
     public static <X> Iterable<X> concat(Iterable<X>... values) {
         return new Iterable<>() {
             @Override
@@ -82,7 +83,7 @@ public class Iterables {
         return collector.finisher().apply(container);
     }
 
-    public static <X,Z> Z collect(Iterable<X> values, SimpleCollector<X, Z> collector) {
+    public static <X,Z> Z collect(SimpleCollector<X, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
         for(var value: values) {
             collector.accumulator().accept(value, container);
@@ -338,6 +339,7 @@ public class Iterables {
         };
     }
 
+    @SafeVarargs
     public static <X> Iterable<X> of(final X ...x) {
         return new Iterable<>() {
 
@@ -471,6 +473,14 @@ public class Iterables {
                 };
             }
         };
+    }
+
+    public static long sum(Iterable<Integer> values) {
+        long i=0;
+        for(int any:values) {
+            i += any;
+        }
+        return i;
     }
 
     public static <X> List<X> asList(Iterable<X> values) {

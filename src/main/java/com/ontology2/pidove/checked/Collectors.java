@@ -27,6 +27,10 @@ public class Collectors {
         return Collector.of(Counter::new, (item, cnt) -> cnt.inc(), Counter::get);
     }
 
+    public static <T, K> SimpleCollector<T,Map<K,List<T>>> groupingBy(Function<? super T,? extends K> classifier) {
+        return groupingBy(classifier, toList());
+    }
+
     public static <T, K, A, D> Collector<T,?, Map<K,D>> groupingBy(
             Function<? super T,? extends K> classifier,
             Collector<? super T,A,D> downstream

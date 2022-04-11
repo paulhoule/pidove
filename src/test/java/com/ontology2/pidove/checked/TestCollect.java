@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.ontology2.pidove.checked.Collectors.*;
@@ -22,13 +23,13 @@ public class TestCollect {
     @Test
     public void collectIntoAListWildcard() {
         var tiger = over("tiger");
-        assertEquals(List.of('t','i','g','e','r'), collect(tiger, toList()));
+        assertEquals(List.of('t','i','g','e','r'), collect(toList(), tiger));
     }
 
     @Test
     public void groupIntoLists() {
         var that = List.of(11,772,22,81,99,12,54,112,78,24,55,104,888);
-        var grouped = collect(that, groupingBy(i -> i % 3,toList()));
+        var grouped = collect(groupingBy(i -> i % 3,toList()), that);
         assertEquals(List.of(81, 99, 12, 54, 78, 24, 888), grouped.get(0));
         assertEquals(List.of(772, 22, 112, 55), grouped.get(1));
         assertEquals(List.of(11, 104), grouped.get(2));
@@ -76,5 +77,4 @@ public class TestCollect {
         assertEquals(6, grouped.get(1));
         assertEquals(2, grouped.get(2));
     }
-
 }
