@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.ontology2.pidove.checked.Collectors.groupingBy;
 import static com.ontology2.pidove.checked.Iterables.*;
+import static java.util.stream.Collectors.groupingBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestExamplesFromReadmeFile {

@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 public class Iterables {
     public static boolean all(Iterable<Boolean> values) {
@@ -78,17 +79,9 @@ public class Iterables {
     public static <X,Y,Z> Z collect(Collector<X, Y, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
         for(var value: values) {
-            collector.accumulator().accept(value, container);
+            collector.accumulator().accept(container,value);
         }
         return collector.finisher().apply(container);
-    }
-
-    public static <X,Z> Z collect(SimpleCollector<X, Z> collector, Iterable<X> values) {
-        var container = collector.supplier().get();
-        for(var value: values) {
-            collector.accumulator().accept(value, container);
-        }
-        return container;
     }
 
     public static <X> long count(Iterable<X> values) {

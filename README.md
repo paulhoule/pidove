@@ -6,7 +6,8 @@ processing implementation doesn't automatically scale itself to match the worklo
 
 *Pidove* in particular implements most of the functions that the Streams API defines on the
 *Stream* object as static methods that act on *Iterable*.  Python (including the *itertools* and *collections*) and
-the OCAML standard library (particularly *seq*) are major inspirations.
+the OCAML standard library (particularly *seq*) are major inspirations.  *Pidove* also reuses parts of the stream
+facility that I like,  like *Collector*,  which really has nothing wrong with it.
 
 ## Sample code
 

@@ -6,16 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
 
-import static com.ontology2.pidove.checked.Collectors.*;
+import static com.ontology2.pidove.checked.Collectors.countDistinct;
 import static com.ontology2.pidove.checked.Iterables.collect;
 import static com.ontology2.pidove.checked.Iterables.over;
+import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestCollect {
     @Test
     public void collectIntoAList() {
-        Collector<Character, List<Character>, List<Character>> collectList = new Collector<>(ArrayList::new,(x, c)->c.add(x), x->x);
+        Collector<Character, List<Character>, List<Character>> collectList = Collector.of(
+                ArrayList::new,
+                List::add,
+                (a,b) -> { a.addAll(b); return a; },
+                x->x);
         var tiger = over("tiger");
         assertEquals(List.of('t','i','g','e','r'), collect(collectList, tiger));
     }
@@ -54,7 +60,7 @@ public class TestCollect {
     @Test
     public void groupIntoSetAndCount2() {
         var that = List.of(11,772,22,81,99,12,54,112,78,24,55,104,55,888,55);
-        var grouped = collect(groupingBy(i->i % 3, toSet().andThen(Set::size)), that);
+        var grouped = collect(groupingBy(i->i % 3, collectingAndThen(toSet(),Set::size)), that);
         assertEquals(7, grouped.get(0));
         assertEquals(4, grouped.get(1));
         assertEquals(2, grouped.get(2));
@@ -63,7 +69,7 @@ public class TestCollect {
     @Test
     public void doubleDistinctCount() {
         var that = List.of(11,772,22,81,99,12,54,112,78,24,55,104,55,888,55);
-        var grouped = collect(groupingBy(i->i % 3, countDistinct().andThen(x -> 2 * x)), that);
+        var grouped = collect(groupingBy(i->i % 3, collectingAndThen(countDistinct(),x -> 2 * x)), that);
         assertEquals(14, grouped.get(0));
         assertEquals(8, grouped.get(1));
         assertEquals(4, grouped.get(2));
