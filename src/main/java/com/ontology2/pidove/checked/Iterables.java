@@ -7,6 +7,8 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import static java.util.Objects.isNull;
+
 public class Iterables {
     public static boolean all(Iterable<Boolean> values) {
         for(boolean b: values) {
@@ -130,6 +132,10 @@ public class Iterables {
     @SafeVarargs
     public static <X> Iterable<X> of(final X ...x) {
         return new ArrayIterable<>(x);
+    }
+
+    public static <X> Iterable<X> ofNullable(final X x) {
+        return isNull(x) ? new EmptyIterable<>() : new SingleItemIterable<>(x);
     }
 
     public static Iterable<Character> over(CharSequence s) {

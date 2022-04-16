@@ -43,4 +43,16 @@ public class TestOf {
         assertEquals(that, asMap(hits));
     }
 
+    @Test
+    public void ofNullableIsEmptyIfNullable() {
+        var x = ofNullable(null);
+        assertEquals(0,count(x));
+    }
+
+    @Test
+    public void ofNullableWithValue() {
+        var x = ofNullable("twenty-five");
+        assertEquals(List.of("twenty-five"), asList(x));
+    }
+
 }
