@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collector;
 
-import static com.ontology2.pidove.checked.Collectors.countDistinct;
+import static com.ontology2.pidove.checked.MoreCollectors.countDistinct;
 import static com.ontology2.pidove.checked.Iterables.collect;
 import static com.ontology2.pidove.checked.Iterables.over;
 import static java.util.stream.Collectors.*;
