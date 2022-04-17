@@ -1,11 +1,9 @@
 package com.ontology2.pidove.checked;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -39,6 +37,7 @@ public class Iterables {
             collector.accumulator().accept(container,value);
         }
         if(collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
+            //noinspection unchecked
             return (Z) container;
         }
         return collector.finisher().apply(container);
@@ -158,7 +157,15 @@ public class Iterables {
         return new PeekIterable<>(values, listener);
     }
 
-    public static <X> Iterable<X> skip(final Iterable<X> values, final int amount) {
+    public static <X> Optional<X> reduce(BinaryOperator<X> accumulator, final Iterable<X> values) {
+        return collect(Collectors.reducing(accumulator), values);
+    }
+
+    public static <X> X reduce(X identity,BinaryOperator<X> accumulator, final Iterable<X> values) {
+        return collect(Collectors.reducing(identity, accumulator), values);
+    }
+
+    public static <X> Iterable<X> skip(final int amount, final Iterable<X> values) {
         return new SkipIterable<>(values, amount);
     }
 

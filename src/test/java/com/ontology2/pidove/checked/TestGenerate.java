@@ -19,22 +19,69 @@ public class TestGenerate {
         assertTrue(all(map(that,x->x.equals("eleven"))));
     }
 
+    static class CounterSupplier implements Supplier<Integer> {
+        int i=0;
+        @Override
+        public Integer get() {
+            return i++;
+        }
+    }
+
     @Test
     public void counterCase() {
-        var counter = new Supplier<Integer>() {
+        var counter = generate(CounterSupplier::new);
+        var that = asList(limit(4, counter));
+        assertEquals(List.of(0, 1, 2, 3),that);
+
+        var skipped0 =  asList(limit(4, skip(0, counter)));
+        assertEquals(List.of(0, 1, 2, 3), skipped0);
+
+        var skipped1 =  asList(limit(4, skip(1, counter)));
+        assertEquals(List.of(1, 2, 3, 4), skipped1);
+
+        var skipped25 =  asList(limit(4, skip(25, counter)));
+        assertEquals(List.of(25, 26, 27, 28), skipped25);
+    }
+
+    @Test
+    public void anotherWayToWriteCounters() {
+
+        var counter = generate(() -> new Supplier<Integer>() {
             int i=0;
             @Override
             public Integer get() {
                 return i++;
             }
-        };
+        });
 
-        var that = asList(limit(4, generate(() -> counter)));
+        var that = asList(limit(4, counter));
         assertEquals(List.of(0, 1, 2, 3),that);
 
-        var skipped =  asList(limit(4, skip(generate(() -> counter), 0)));
-        assertEquals(List.of(0, 1, 2, 3), skipped);
+        var skipped0 =  asList(limit(4, skip(0, counter)));
+        assertEquals(List.of(0, 1, 2, 3), skipped0);
 
+        var skipped1 =  asList(limit(4, skip(1, counter)));
+        assertEquals(List.of(1, 2, 3, 4), skipped1);
+
+        var skipped25 =  asList(limit(4, skip(25, counter)));
+        assertEquals(List.of(25, 26, 27, 28), skipped25);
+    }
+
+    public void lambdaCounters() {
+
+        var counter = generate(() -> {int[] i={0}; return () -> i[0]++;});
+
+        var that = asList(limit(4, counter));
+        assertEquals(List.of(0, 1, 2, 3),that);
+
+        var skipped0 =  asList(limit(4, skip(0, counter)));
+        assertEquals(List.of(0, 1, 2, 3), skipped0);
+
+        var skipped1 =  asList(limit(4, skip(1, counter)));
+        assertEquals(List.of(1, 2, 3, 4), skipped1);
+
+        var skipped25 =  asList(limit(4, skip(25, counter)));
+        assertEquals(List.of(25, 26, 27, 28), skipped25);
     }
 
     @Test
