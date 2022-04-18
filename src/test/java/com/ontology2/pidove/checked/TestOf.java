@@ -55,4 +55,11 @@ public class TestOf {
         assertEquals(List.of("twenty-five"), asList(x));
     }
 
+    @Test
+    public void anEmptyIterable() {
+        var emT=empty();
+        assertEquals(0, count(emT));
+        assertEquals(List.of(), asList(emT));
+    }
+
 }

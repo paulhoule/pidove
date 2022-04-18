@@ -55,6 +55,10 @@ public class Iterables {
         return asSet(values);
     }
 
+    public static Iterable<?> empty() {
+        return EmptyIterable.get();
+    }
+
     public static <X> Optional<X> first(Iterable<X> values) {
         var that = values.iterator();
         if(that.hasNext()) {
@@ -74,6 +78,10 @@ public class Iterables {
 
     public static <X> Iterable<X> generate(Supplier<Supplier<X>> source) {
         return new GenerateIterable<>(source);
+    }
+
+    public static <X> Iterable<X> iterate(X seed, UnaryOperator<X> f) {
+        return new IterateIterable<>(seed, f);
     }
 
     public static <X> Iterable<X> limit(final int amount, Iterable<X> values) {
@@ -134,7 +142,8 @@ public class Iterables {
     }
 
     public static <X> Iterable<X> ofNullable(final X x) {
-        return isNull(x) ? new EmptyIterable<>() : new SingleItemIterable<>(x);
+        //noinspection unchecked
+        return isNull(x) ? (Iterable<X>) EmptyIterable.get() : new SingleItemIterable<>(x);
     }
 
     public static Iterable<Character> over(CharSequence s) {
