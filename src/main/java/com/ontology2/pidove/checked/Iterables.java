@@ -190,6 +190,10 @@ public class Iterables {
         return i;
     }
 
+    public static <X> Iterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {
+        return new TakeWhileIterable<>(values, predicate);
+    }
+
     public static <X> List<X> asList(Iterable<X> values) {
         var that = new ArrayList<X>();
         for(X x:values) {

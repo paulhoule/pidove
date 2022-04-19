@@ -5,8 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.function.Predicate;
 
-import static com.ontology2.pidove.checked.Iterables.asList;
-import static com.ontology2.pidove.checked.Iterables.dropWhile;
+import static com.ontology2.pidove.checked.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestDropAndTake {
@@ -14,7 +13,7 @@ public class TestDropAndTake {
     Predicate<Integer> isOdd = isEven.negate();
 
     @Test
-    public void dropEven() {
+    public void dropEvenOrOdd() {
         assertEquals(List.of(), asList(dropWhile(isEven, List.of())));
         assertEquals(List.of(1), asList(dropWhile(isEven, List.of(1))));
         assertEquals(List.of(1, 2 , 3), asList(dropWhile(isEven, List.of(1,2,3))));
@@ -23,5 +22,16 @@ public class TestDropAndTake {
         assertEquals(List.of(), asList(dropWhile(isOdd, List.of(77, 11, 33, 11, 505))));
         assertEquals(List.of(77, 11, 33, 11, 505), asList(dropWhile(isEven, List.of(77, 11, 33, 11, 505))));
         assertEquals(List.of(55), asList(dropWhile(isEven,List.of(108, 110, 55))));
+    }
+
+    @Test
+    public void takeEvenOrOdd() {
+        assertEquals(List.of(), asList(takeWhile(isEven, List.of())));
+        assertEquals(List.of(), asList(takeWhile(isEven, List.of(1))));
+        assertEquals(List.of(1), asList(takeWhile(isOdd, List.of(1))));
+        assertEquals(List.of(1), asList(takeWhile(isOdd, List.of(1, 2))));
+        assertEquals(List.of(1, 3), asList(takeWhile(isOdd, List.of(1, 3))));
+        assertEquals(List.of(1, 3, 5), asList(takeWhile(isOdd, List.of(1, 3, 5))));
+        assertEquals(List.of(1, 3, 5), asList(takeWhile(isOdd, List.of(1, 3, 5, 8, 1))));
     }
 }
