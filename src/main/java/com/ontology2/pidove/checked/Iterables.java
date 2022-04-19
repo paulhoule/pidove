@@ -55,6 +55,10 @@ public class Iterables {
         return asSet(values);
     }
 
+    public static <X> Iterable<X> dropWhile(Predicate<? super X> predicate, Iterable<X> values) {
+        return new DropWhileIterable<>(values, predicate);
+    }
+
     public static Iterable<?> empty() {
         return EmptyIterable.get();
     }
