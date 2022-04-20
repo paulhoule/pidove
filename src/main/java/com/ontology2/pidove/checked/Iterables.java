@@ -6,6 +6,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
+import static java.util.function.Function.*;
 
 public class Iterables {
     public static boolean all(Iterable<Boolean> values) {
@@ -76,7 +77,11 @@ public class Iterables {
         return new FilterIterable<>(values, predicate);
     }
 
-    public static <X,Y> Iterable<Y> flatMap(Function<X, Iterable<Y>> fn, Iterable<X> values) {
+    public static <X> Iterable<X> flatten(Iterable<? extends Iterable<X>> values) {
+        return flatMap(identity(), values);
+    }
+
+    public static <X,Y> Iterable<Y> flatMap(Function<X, ? extends Iterable<Y>> fn, Iterable<X> values) {
         return new FlatMapIterable<>(values, fn);
     }
 
@@ -168,6 +173,18 @@ public class Iterables {
 
     public static <X> Iterable<X> peek(Consumer<X> listener, final Iterable<X> values) {
         return new PeekIterable<>(values, listener);
+    }
+
+    public static Iterable<Long> range(long stop) {
+        return range(0, stop, 1);
+    }
+
+    public static Iterable<Long> range(long start, long stop) {
+        return range(start, stop, 1);
+    }
+
+    public static Iterable<Long> range(long start, long stop, long skip) {
+        return new RangeIterable(start, skip, stop);
     }
 
     public static <X> Optional<X> reduce(BinaryOperator<X> accumulator, final Iterable<X> values) {

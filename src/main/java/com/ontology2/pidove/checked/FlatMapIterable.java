@@ -5,20 +5,22 @@ import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 class FlatMapIterable<X, Y> implements Iterable<Y> {
-    final Iterator<X> that;
+
     private final Iterable<X> values;
-    private final Function<X, Iterable<Y>> fn;
+    private final Function<X, ? extends Iterable<Y>> fn;
     Iterator<Y> current;
 
-    public FlatMapIterable(Iterable<X> values, Function<X, Iterable<Y>> fn) {
+    public FlatMapIterable(Iterable<X> values, Function<X, ? extends Iterable<Y>> fn) {
         this.values = values;
         this.fn = fn;
-        that = values.iterator();
+
         current = null;
     }
 
     @Override
     public Iterator<Y> iterator() {
+        final Iterator<X> that = values.iterator();
+
         return new Iterator<>() {
             @Override
             public boolean hasNext() {

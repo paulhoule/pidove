@@ -79,4 +79,11 @@ public class TestMap {
         var output = List.of("acid", "Awkward", "apple");
         assertEquals(output, asList(flatMap(wrappedPredicate, input)));
     }
+
+    @Test
+    public void testFlatten() {
+        List<List<Object>> input = List.of(List.of(1,2), List.of('a'), List.of(), List.of('v'));
+        var output = flatten(input);
+        assertEquals(List.of(1,2,'a','v'), asList(output));
+    }
 }
