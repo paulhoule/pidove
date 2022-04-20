@@ -1,5 +1,6 @@
 package com.ontology2.pidove.checked;
 
+import java.io.Closeable;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
@@ -34,9 +35,19 @@ public class Iterables {
 
     public static <X,Y,Z> Z collect(Collector<X, Y, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
-        for(var value: values) {
-            collector.accumulator().accept(container,value);
+        var that = values.iterator();
+        while(that.hasNext()) {
+            collector.accumulator().accept(container,that.next());
         }
+
+        if(that instanceof AutoCloseable c) {
+            try {
+                c.close();
+            } catch(Exception e) {
+                throw new OnCloseException(e);
+            }
+        }
+
         if(collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
             //noinspection unchecked
             return (Z) container;
@@ -183,6 +194,14 @@ public class Iterables {
         return range(start, stop, 1);
     }
 
+    /**
+     * This is like the range function from the Python standard library
+     *
+     * @param start
+     * @param stop
+     * @param skip
+     * @return
+     */
     public static Iterable<Long> range(long start, long stop, long skip) {
         return new RangeIterable(start, skip, stop);
     }
