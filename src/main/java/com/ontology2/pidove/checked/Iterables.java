@@ -1,11 +1,11 @@
 package com.ontology2.pidove.checked;
 
-import java.io.Closeable;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import static com.ontology2.pidove.checked.Exceptions.uncheck;
 import static java.util.Objects.isNull;
 import static java.util.function.Function.*;
 
@@ -36,17 +36,7 @@ public class Iterables {
     public static <X,Y,Z> Z collect(Collector<X, Y, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
         var that = values.iterator();
-        while(that.hasNext()) {
-            collector.accumulator().accept(container,that.next());
-        }
-
-        if(that instanceof AutoCloseable c) {
-            try {
-                c.close();
-            } catch(Exception e) {
-                throw new OnCloseException(e);
-            }
-        }
+        forEach((X item) -> collector.accumulator().accept(container, item) , values);
 
         if(collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
             //noinspection unchecked
@@ -57,6 +47,7 @@ public class Iterables {
 
     public static <X> long count(Iterable<X> values) {
         long i=0;
+        var that = values.iterator();
         for(X any:values) {
             i++;
         }
@@ -197,10 +188,10 @@ public class Iterables {
     /**
      * This is like the range function from the Python standard library
      *
-     * @param start
-     * @param stop
-     * @param skip
-     * @return
+     * @param start the beginning of the range
+     * @param stop iteration stops after we are equal to sto, greater, or less depending on if step is positive or negative
+     * @param skip how much we add for each iteration
+     * @return an iterable that counts from start to stop with skip as stride
      */
     public static Iterable<Long> range(long start, long stop, long skip) {
         return new RangeIterable(start, skip, stop);
@@ -231,11 +222,31 @@ public class Iterables {
     }
 
     public static <X> List<X> asList(Iterable<X> values) {
-        var that = new ArrayList<X>();
-        for(X x:values) {
-            that.add(x);
+        return collect(Collectors.toList(), values);
+    }
+
+    public static <X> void forEach(Consumer<X> action, Iterable<X> values) {
+        var source = values.iterator();
+        try {
+            while (source.hasNext()) {
+                action.accept(source.next());
+            }
+        } finally {
+            close(source);
         }
-        return that;
+    }
+
+    public static <X> void forEach(Predicate<X> action, Iterable<X> values) {
+        var source = values.iterator();
+        try {
+            while (source.hasNext()) {
+                if(!action.test(source.next())) {
+                    break;
+                }
+            }
+        } finally {
+            close(source);
+        }
     }
 
     public static <X> Set<X> asSet(Iterable<X> values) {
@@ -254,4 +265,16 @@ public class Iterables {
         return that;
     }
 
+    /**
+     * Given an arbitrary object,  calls the close method if it is AutoCloseable,  otherwise
+     * do nothing
+     *
+     * @param that any Object
+     * @throws RuntimeException if the AutoCloseable#close method is called and throws one
+     */
+    public static void close(Object that) throws RuntimeException {
+        if(that instanceof AutoCloseable ac) {
+            uncheck(ac::close);
+        }
+    }
 }

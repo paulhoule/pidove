@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 class ConcatIterable<X> implements Iterable<X> {
     private final Iterable<X>[] values;
 
+    @SafeVarargs
     public ConcatIterable(Iterable<X>... values) {
         this.values = values;
     }
@@ -29,6 +30,7 @@ class ConcatIterable<X> implements Iterable<X> {
                     if (nextIterator.hasNext()) {
                         return true;
                     } else {
+                        Iterables.close(nextIterator);
                         nextIterator = null;
                     }
                 }
@@ -47,10 +49,10 @@ class ConcatIterable<X> implements Iterable<X> {
                     if (nextIterator.hasNext()) {
                         return nextIterator.next();
                     } else {
+                        Iterables.close(nextIterator);
                         nextIterator = null;
                     }
                 }
-
             }
         };
     }

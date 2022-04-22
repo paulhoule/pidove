@@ -16,42 +16,48 @@ class TakeWhileIterable<X> implements Iterable<X> {
 
     @Override
     public Iterator<X> iterator() {
-        return new Iterator<>() {
-            final Iterator<X> that = values.iterator();
-            @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-            Optional<X> nextValue;
+        return new TakeWhileIterator(values);
+    }
 
-            {
+    private class TakeWhileIterator extends AutoClosingIterator<X> {
+        public TakeWhileIterator(Iterable<X> that) {
+            super(that.iterator());
+        }
+        @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+        Optional<X> nextValue;
+
+        {
+            updateNextValue();
+        }
+
+
+
+        private void updateNextValue() {
+            if(that.hasNext()) {
+                var x = that.next();
+                if(predicate.test(x)) {
+                    nextValue = Optional.of(x);
+                    return;
+                }
+            }
+            nextValue=Optional.empty();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextValue.isPresent();
+        }
+
+        @Override
+        public X next() {
+            if(nextValue.isEmpty()) {
+                throw new NoSuchElementException();
+            }
+            try {
+                return nextValue.get();
+            } finally {
                 updateNextValue();
             }
-
-            private void updateNextValue() {
-                if(that.hasNext()) {
-                    var x = that.next();
-                    if(predicate.test(x)) {
-                        nextValue = Optional.of(x);
-                        return;
-                    }
-                }
-                nextValue=Optional.empty();
-            }
-
-            @Override
-            public boolean hasNext() {
-                return nextValue.isPresent();
-            }
-
-            @Override
-            public X next() {
-                if(nextValue.isEmpty()) {
-                    throw new NoSuchElementException();
-                }
-                try {
-                    return nextValue.get();
-                } finally {
-                    updateNextValue();
-                }
-            }
-        };
+        }
     }
 }

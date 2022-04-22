@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static com.ontology2.pidove.checked.Iterables.concat;
-import static com.ontology2.pidove.checked.Iterables.asList;
+import static com.ontology2.pidove.checked.Fixtures.closeSpy;
+import static com.ontology2.pidove.checked.Iterables.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestConcat {
@@ -55,5 +55,12 @@ public class TestConcat {
     public void emptyRight() {
         var that = asList(concat(List.of("a", "b", "c"),List.of()));
         assertEquals(List.of("a","b","c"), that);
+    }
+
+    @Test
+    public void concatCloses() {
+        var one = closeSpy(List.of("i", "said", "goodbye"));
+        var two = closeSpy(List.of("who", "are", "you"));
+        assertEquals(6, count(concat(one,two)));
     }
 }
