@@ -39,7 +39,7 @@ public class Iterables {
     }
 
     @SafeVarargs
-    public static <X> Iterable<X> concat(Iterable<X>... values) {
+    public static <X> CleanIterable<X> concat(Iterable<X>... values) {
         return new ConcatIterable<>(values);
     }
 
@@ -109,7 +109,7 @@ public class Iterables {
         return new LimitIterable<>(values, amount);
     }
 
-    public static <X,Y> Iterable<Y> map(Function<X,Y> fn, Iterable<X> values) {
+    public static <X,Y> CleanIterable<Y> map(Function<X,Y> fn, Iterable<X> values) {
         return new MapIterable<>(values, fn);
     }
 
@@ -235,24 +235,11 @@ public class Iterables {
         return collect(Collectors.toList(), values);
     }
 
-    public static <X> void forEach(Consumer<X> action, Iterable<X> values) {
+    public static <X> void forEach(Consumer<? super X> action, Iterable<X> values) {
         var source = values.iterator();
         try {
             while (source.hasNext()) {
                 action.accept(source.next());
-            }
-        } finally {
-            close(source);
-        }
-    }
-
-    public static <X> void forEach(Predicate<X> action, Iterable<X> values) {
-        var source = values.iterator();
-        try {
-            while (source.hasNext()) {
-                if(!action.test(source.next())) {
-                    break;
-                }
             }
         } finally {
             close(source);

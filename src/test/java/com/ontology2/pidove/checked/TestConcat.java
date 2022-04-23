@@ -62,5 +62,7 @@ public class TestConcat {
         var one = closeSpy(List.of("i", "said", "goodbye"));
         var two = closeSpy(List.of("who", "are", "you"));
         assertEquals(6, count(concat(one,two)));
+        assertEquals(1, one.getCloseCount());
+        assertEquals(1, two.getCloseCount());
     }
 }

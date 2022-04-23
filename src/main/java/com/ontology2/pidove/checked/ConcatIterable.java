@@ -3,7 +3,7 @@ package com.ontology2.pidove.checked;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class ConcatIterable<X> implements Iterable<X> {
+class ConcatIterable<X> extends CleanIterable<X> {
     private final Iterable<X>[] values;
 
     @SafeVarargs

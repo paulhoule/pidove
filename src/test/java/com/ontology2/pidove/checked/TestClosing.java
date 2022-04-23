@@ -65,4 +65,18 @@ public class TestClosing {
         assertFalse(any(map(x->x.equals(6), instrumented)));
         assertEquals(1, instrumented.getCloseCount());
     }
+
+    @Test
+    public void foreachClosesOnCleanIterable() {
+        var instrumented = closeSpy(List.of(5,5,5,5,5,5));
+        map(x->x.equals(6), instrumented).forEach(x -> {});
+        assertEquals(1, instrumented.getCloseCount());
+    }
+
+    @Test
+    public void foreachClosesOnConcatIterable() {
+        var instrumented = closeSpy(concat());
+        map(x->x.equals(6), instrumented).forEach(x -> {});
+        assertEquals(1, instrumented.getCloseCount());
+    }
 }

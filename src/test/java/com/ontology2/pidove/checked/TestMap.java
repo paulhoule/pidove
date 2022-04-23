@@ -10,9 +10,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.ontology2.pidove.checked.Iterables.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestMap {
     static final Function<Integer, Iterable<Integer>> megaplier = i -> {
@@ -85,5 +83,11 @@ public class TestMap {
         List<List<Object>> input = List.of(List.of(1,2), List.of('a'), List.of(), List.of('v'));
         var output = flatten(input);
         assertEquals(List.of(1,2,'a','v'), asList(output));
+    }
+
+    @Test
+    public void mapIterableIsMarkedAutoCloseable() {
+        var i = map(x->x, List.of(5)).iterator();
+        assertTrue(i.hasNext());
     }
 }
