@@ -3,6 +3,7 @@ package com.ontology2.pidove.checked;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.ontology2.pidove.checked.Fixtures.closeSpy;
 import static com.ontology2.pidove.checked.Iterables.*;
@@ -67,7 +68,7 @@ public class TestClosing {
     }
 
     @Test
-    public void foreachClosesOnCleanIterable() {
+    public void foreachClosesOnMapIterable() {
         var instrumented = closeSpy(List.of(5,5,5,5,5,5));
         map(x->x.equals(6), instrumented).forEach(x -> {});
         assertEquals(1, instrumented.getCloseCount());
@@ -77,6 +78,13 @@ public class TestClosing {
     public void foreachClosesOnConcatIterable() {
         var instrumented = closeSpy(concat());
         map(x->x.equals(6), instrumented).forEach(x -> {});
+        assertEquals(1, instrumented.getCloseCount());
+    }
+
+    @Test
+    public void closesOnCollect() {
+        var instrumented = closeSpy(concat(over("Channel Z")));
+        assertEquals(9, collect(Collectors.counting(), instrumented));
         assertEquals(1, instrumented.getCloseCount());
     }
 }
