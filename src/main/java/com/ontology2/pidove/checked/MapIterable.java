@@ -14,17 +14,23 @@ class MapIterable<X, Y> implements Iterable<Y> {
 
     @Override
     public Iterator<Y> iterator() {
-        final var that = values.iterator();
-        return new Iterator<>() {
-            @Override
-            public boolean hasNext() {
-                return that.hasNext();
-            }
+        return new MapIterator(values);
+    }
 
-            @Override
-            public Y next() {
-                return fn.apply(that.next());
-            }
-        };
+    private class MapIterator extends AutoClosingIterator<X,Y> {
+
+        public MapIterator(Iterable<X> source) {
+            super(source.iterator());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return that.hasNext();
+        }
+
+        @Override
+        public Y next() {
+            return fn.apply(that.next());
+        }
     }
 }

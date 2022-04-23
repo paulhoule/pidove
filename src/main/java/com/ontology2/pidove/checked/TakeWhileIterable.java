@@ -19,7 +19,7 @@ class TakeWhileIterable<X> implements Iterable<X> {
         return new TakeWhileIterator(values);
     }
 
-    private class TakeWhileIterator extends AutoClosingIterator<X> {
+    private class TakeWhileIterator extends AutoClosingIterator<X, X> {
         public TakeWhileIterator(Iterable<X> that) {
             super(that.iterator());
         }

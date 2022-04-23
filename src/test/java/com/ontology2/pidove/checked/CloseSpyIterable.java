@@ -19,7 +19,7 @@ public class CloseSpyIterable<X> implements Iterable<X> {
         return closeCount;
     }
 
-    class CloseSpyIterator extends AutoClosingIterator<X> {
+    class CloseSpyIterator extends AutoClosingIterator<X,X> {
 
         public CloseSpyIterator(Iterator<X> that) {
             super(that);

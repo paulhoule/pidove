@@ -19,7 +19,7 @@ class DropWhileIterable<X> implements Iterable<X> {
         return new DropWhileIterator(values);
     }
 
-    private class DropWhileIterator extends AutoClosingIterator<X> {
+    private class DropWhileIterator extends AutoClosingIterator<X,X> {
         public DropWhileIterator(Iterable<X> that) {
             super(that.iterator());
         }

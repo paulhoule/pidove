@@ -30,28 +30,28 @@ public class TestMap {
     @Test
     public void testMap() {
         var list = List.of(1,2,3,4,5,6,7);
-        var result = asList(map(list, x->2*x));
+        var result = asList(map(x->2*x, list));
         assertEquals(List.of(2,4,6,8,10,12,14), result);
     }
 
     @Test
     public void mapToBool() {
         var list = List.of(1,2,3,4,5,6,7);
-        var result = asList(map(list, x-> x%2==0));
+        var result = asList(map(x-> x%2==0, list));
         assertEquals(List.of(false, true, false, true, false, true, false), result);
     }
 
     @Test
     public void testToSet() {
         var list = List.of("a","b","c");
-        var result = asSet(map(list, x->x+x));
+        var result = asSet(map(x->x+x, list));
         assertEquals(Set.of("cc", "bb", "aa"), result);
     }
 
     @Test
     public void testOffEnd() {
         var list = List.of("a","b","c");
-        var result = map(list, x->x+x).iterator();
+        var result = map(x->x+x, list).iterator();
         assertEquals("aa", result.next());
         assertEquals("bb", result.next());
         assertEquals("cc", result.next());

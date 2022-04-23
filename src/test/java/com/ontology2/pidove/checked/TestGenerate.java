@@ -16,7 +16,7 @@ public class TestGenerate {
         var infinite = generate(() -> () -> "eleven");
         var that = asList(limit(7, infinite));
         assertEquals(7,that.size());
-        assertTrue(all(map(that,x->x.equals("eleven"))));
+        assertTrue(all(map(x->x.equals("eleven"), that)));
     }
 
     static class CounterSupplier implements Supplier<Integer> {

@@ -11,21 +11,31 @@ import static java.util.function.Function.*;
 
 public class Iterables {
     public static boolean all(Iterable<Boolean> values) {
-        for(boolean b: values) {
-            if(!b)
-                return false;
-        }
+        Iterator<Boolean> that = values.iterator();
+        try {
+            while (that.hasNext()) {
+                if (!that.next())
+                    return false;
+            }
 
-        return true;
+            return true;
+        } finally {
+            close(that);
+        }
     }
 
     public static boolean any(Iterable<Boolean> values) {
-        for(boolean b: values) {
-            if(b)
-                return true;
-        }
+        Iterator<Boolean> that = values.iterator();
+        try {
+            for(boolean b: values) {
+                if(b)
+                    return true;
+            }
 
-        return false;
+            return false;
+        } finally {
+            close(that);
+        }
     }
 
     @SafeVarargs
@@ -99,7 +109,7 @@ public class Iterables {
         return new LimitIterable<>(values, amount);
     }
 
-    public static <X,Y> Iterable<Y> map(Iterable<X> values, Function<X,Y> fn) {
+    public static <X,Y> Iterable<Y> map(Function<X,Y> fn, Iterable<X> values) {
         return new MapIterable<>(values, fn);
     }
 
@@ -166,7 +176,7 @@ public class Iterables {
     }
 
     public static <X,Y> Iterable<Pair<X,Y>> over(final Map<X,Y> that) {
-        return map(that.entrySet(), e->new Pair<>(e.getKey(), e.getValue()));
+        return map(e->new Pair<>(e.getKey(), e.getValue()), that.entrySet());
     }
 
     public static <X extends Comparable<X>> Optional<X> min(final Iterable<X> values) {
@@ -250,19 +260,11 @@ public class Iterables {
     }
 
     public static <X> Set<X> asSet(Iterable<X> values) {
-        var that = new HashSet<X>();
-        for(X x:values) {
-            that.add(x);
-        }
-        return that;
+        return collect(Collectors.toSet(), values);
     }
 
     public static <X,Y> Map<X,Y> asMap(Iterable<Pair<X,Y>> pairs) {
-        var that = new HashMap<X,Y>();
-        for(Pair<X,Y> item:pairs) {
-            that.put(item.left(), item.right());
-        }
-        return that;
+        return collect(Collectors.toMap(Pair::left, Pair::right), pairs);
     }
 
     /**
