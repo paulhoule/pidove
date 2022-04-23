@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static com.ontology2.pidove.checked.Fixtures.closeSpy;
 import static com.ontology2.pidove.checked.Iterables.count;
 import static java.util.List.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,5 +18,12 @@ public class TestCount {
         assertEquals(1, count(of(1)));
         assertEquals(2, count(of(1,2)));
         assertEquals(3, count(of(1,2,3)));
+    }
+
+    @Test
+    public void countCloses() {
+        var instrumented = closeSpy(of());
+        assertEquals(0, count(instrumented));
+        assertEquals(1, instrumented.getCloseCount());
     }
 }

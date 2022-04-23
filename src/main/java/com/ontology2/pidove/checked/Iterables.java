@@ -56,15 +56,10 @@ public class Iterables {
     }
 
     public static <X> long count(Iterable<X> values) {
-        long i=0;
-        var that = values.iterator();
-        for(X any:values) {
-            i++;
-        }
-        return i;
+        return collect(Collectors.counting(), values);
     }
 
-    public static <X> Iterable<X> distinct(Iterable<X> values) {
+    public static <X> Set<X> distinct(Iterable<X> values) {
         return asSet(values);
     }
 
@@ -78,10 +73,14 @@ public class Iterables {
 
     public static <X> Optional<X> first(Iterable<X> values) {
         var that = values.iterator();
-        if(that.hasNext()) {
-            return Optional.of(that.next());
-        } else {
-            return Optional.empty();
+        try {
+            if(that.hasNext()) {
+                return Optional.of(that.next());
+            } else {
+                return Optional.empty();
+            }
+        } finally {
+            close(that);
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.ontology2.pidove.checked.Fixtures.closeSpy;
 import static com.ontology2.pidove.checked.Iterables.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,5 +35,12 @@ public class TestFirst {
     public void firstOrNullWorks() {
         assertNull(first(List.of()).orElse(null));
         assertEquals(883, first(List.of(883, "foo", 11)).orElse(null));
+    }
+
+    @Test
+    public void andItCloses() {
+        var instrumented = closeSpy(over("change is happening"));
+        assertEquals('c', first(instrumented).orElseThrow());
+        assertEquals(1, instrumented.getCloseCount());
     }
 }
