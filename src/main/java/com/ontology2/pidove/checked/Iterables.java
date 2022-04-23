@@ -84,7 +84,7 @@ public class Iterables {
         }
     }
 
-    public static <X> Iterable<X> filter(Predicate<X> predicate, Iterable<X> values) {
+    public static <X> CleanIterable<X> filter(Predicate<X> predicate, Iterable<X> values) {
         return new FilterIterable<>(values, predicate);
     }
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static com.ontology2.pidove.checked.Fixtures.closeSpy;
 import static com.ontology2.pidove.checked.Iterables.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,6 +61,12 @@ public class TestFilter {
         assertEquals("find", that.next());
         assertEquals("ya", that.next());
         assertThrows(NoSuchElementException.class, that::next);
+    }
+
+    public void andItCloses() {
+        var instrumented = closeSpy(List.of());
+        filter(x->false, instrumented);
+        assertEquals(1, instrumented.getCloseCount());
     }
 
 }

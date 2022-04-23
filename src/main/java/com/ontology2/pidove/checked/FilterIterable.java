@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-class FilterIterable<X> implements Iterable<X> {
+class FilterIterable<X> extends CleanIterable<X> {
     private final Iterable<X> values;
     private final Predicate<X> predicate;
 
@@ -15,43 +15,48 @@ class FilterIterable<X> implements Iterable<X> {
 
     @Override
     public Iterator<X> iterator() {
-        final var that = values.iterator();
+        return new FilterIterator(values);
+    }
 
-        return new Iterator<>() {
-            X placeholder;
-            boolean loadAhead = false;
+    private class FilterIterator extends AutoClosingIterator<X,X> {
+        X placeholder;
+        boolean loadAhead;
 
-            @Override
-            public boolean hasNext() {
-                if (loadAhead)
+        public FilterIterator(Iterable<X> source) {
+            super(source.iterator());
+            loadAhead = false;
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (loadAhead)
+                return true;
+
+            while (that.hasNext()) {
+                final var next = that.next();
+                if (predicate.test(next)) {
+                    placeholder = next;
+                    loadAhead = true;
                     return true;
-
-                while (that.hasNext()) {
-                    final var next = that.next();
-                    if (predicate.test(next)) {
-                        placeholder = next;
-                        loadAhead = true;
-                        return true;
-                    }
                 }
-                return false;
+            }
+            return false;
+        }
+
+        @Override
+        public X next() {
+            if (loadAhead) {
+                loadAhead = false;
+                return placeholder;
             }
 
-            @Override
-            public X next() {
-                if (loadAhead) {
-                    loadAhead = false;
-                    return placeholder;
+            while (that.hasNext()) {
+                final var next = that.next();
+                if (predicate.test(next)) {
+                    return next;
                 }
-
-                while (that.hasNext()) {
-                    final var next = that.next();
-                    if (predicate.test(next)) {
-                        return next;
-                    }
-                }
-                throw new NoSuchElementException();
             }
-        };
+            throw new NoSuchElementException();
+        }
     }
 }
