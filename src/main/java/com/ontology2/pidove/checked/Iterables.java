@@ -68,7 +68,7 @@ public class Iterables {
         return asSet(values);
     }
 
-    public static <X> Iterable<X> dropWhile(Predicate<? super X> predicate, Iterable<X> values) {
+    public static <X> CleanIterable<X> dropWhile(Predicate<? super X> predicate, Iterable<X> values) {
         return new DropWhileIterable<>(values, predicate);
     }
 
@@ -227,7 +227,7 @@ public class Iterables {
         return i;
     }
 
-    public static <X> Iterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {
+    public static <X> CleanIterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {
         return new TakeWhileIterable<>(values, predicate);
     }
 

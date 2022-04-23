@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-class TakeWhileIterable<X> implements Iterable<X> {
+class TakeWhileIterable<X> extends CleanIterable<X> {
     private final Iterable<X> values;
     private final Predicate<? super X> predicate;
 

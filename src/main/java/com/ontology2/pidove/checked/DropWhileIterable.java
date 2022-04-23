@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-class DropWhileIterable<X> implements Iterable<X> {
+class DropWhileIterable<X> extends CleanIterable<X> {
     private final Iterable<X> values;
     private final Predicate<? super X> predicate;
 
