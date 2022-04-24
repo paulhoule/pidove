@@ -2,14 +2,14 @@ package com.ontology2.pidove.checked;
 
 import java.util.Iterator;
 
-abstract public class AutoClosingIterator<X,Y> implements AutoCloseable,Iterator<Y> {
+abstract public class TidyIterator<X,Y> implements AutoCloseable,Iterator<Y> {
     /**
      *
      * Base class for an iterator that contains another iterator,  such as the MapIterator.
      *
      */
     protected final Iterator<X> that;
-    public AutoClosingIterator(Iterator<X> that) {
+    public TidyIterator(Iterator<X> that) {
         this.that = that;
     }
 

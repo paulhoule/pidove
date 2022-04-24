@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-class FlatMapIterable<X, Y> implements Iterable<Y> {
+class FlatMapIterable<X, Y> extends TidyIterable<Y> {
 
     private final Iterable<X> values;
     private final Function<X, ? extends Iterable<Y>> fn;
@@ -13,48 +13,61 @@ class FlatMapIterable<X, Y> implements Iterable<Y> {
     public FlatMapIterable(Iterable<X> values, Function<X, ? extends Iterable<Y>> fn) {
         this.values = values;
         this.fn = fn;
-
         current = null;
     }
 
     @Override
     public Iterator<Y> iterator() {
-        final Iterator<X> that = values.iterator();
+        return new FlatMapIterator(values);
+    }
 
-        return new Iterator<>() {
-            @Override
-            public boolean hasNext() {
-                while (true) {
-                    if (current == null || !current.hasNext()) {
-                        if (that.hasNext()) {
-                            current = fn.apply(that.next()).iterator();
-                        } else {
-                            return false;
-                        }
-                    }
+    private class FlatMapIterator extends TidyIterator<X, Y> {
+        public FlatMapIterator(Iterable<X> that) {
+            super(that.iterator());
+        }
 
-                    if (current.hasNext()) {
-                        return true;
-                    }
-                }
-            }
-
-            @Override
-            public Y next() {
-                while (true) {
-                    if (current == null || !current.hasNext()) {
-                        if (that.hasNext()) {
-                            current = fn.apply(that.next()).iterator();
-                        } else {
-                            throw new NoSuchElementException();
-                        }
-                    }
-
-                    if (current.hasNext()) {
-                        return current.next();
+        @Override
+        public boolean hasNext() {
+            while (true) {
+                if (current == null || !current.hasNext()) {
+                    Iterables.close(current);
+                    if (that.hasNext()) {
+                        current = fn.apply(that.next()).iterator();
+                    } else {
+                        current = null;
+                        return false;
                     }
                 }
+
+                if (current.hasNext()) {
+                    return true;
+                }
             }
-        };
+        }
+
+        @Override
+        public Y next() {
+            while (true) {
+                if (current == null || !current.hasNext()) {
+                    Iterables.close(current);
+                    if (that.hasNext()) {
+                        current = fn.apply(that.next()).iterator();
+                    } else {
+                        current = null;
+                        throw new NoSuchElementException();
+                    }
+                }
+
+                if (current.hasNext()) {
+                    return current.next();
+                }
+            }
+        }
+
+        @Override
+        public void close() throws Exception {
+            super.close();
+            Iterables.close(current);
+        }
     }
 }

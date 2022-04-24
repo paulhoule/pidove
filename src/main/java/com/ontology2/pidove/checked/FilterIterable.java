@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-class FilterIterable<X> extends CleanIterable<X> {
+class FilterIterable<X> extends TidyIterable<X> {
     private final Iterable<X> values;
     private final Predicate<X> predicate;
 
@@ -18,7 +18,7 @@ class FilterIterable<X> extends CleanIterable<X> {
         return new FilterIterator(values);
     }
 
-    private class FilterIterator extends AutoClosingIterator<X,X> {
+    private class FilterIterator extends TidyIterator<X,X> {
         X placeholder;
         boolean loadAhead;
 

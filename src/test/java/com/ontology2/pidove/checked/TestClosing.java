@@ -78,13 +78,52 @@ public class TestClosing {
     public void foreachClosesOnConcatIterable() {
         var instrumented = closeSpy(concat());
         map(x->x.equals(6), instrumented).forEach(x -> {});
-        assertEquals(1, instrumented.getCloseCount());
+        assertClosed(instrumented);
     }
 
     @Test
     public void closesOnCollect() {
         var instrumented = closeSpy(concat(over("Channel Z")));
         assertEquals(9, collect(Collectors.counting(), instrumented));
+        assertEquals(1, instrumented.getCloseCount());
+    }
+
+    @Test
+    public void flatMapClosesSourceIterable() {
+        var instrumented = closeSpy(List.of());
+        var nothing = flatMap(x->empty(), instrumented);
+        count(nothing);
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void flatMapClosesInnermostIterable() {
+        var instrumentedA = closeSpy(List.of(1001));
+        var instrumentedB = closeSpy(List.of(1002));
+        var instrumentedC = closeSpy(List.of(1003));
+        var object = closeSpy(List.of(instrumentedA, instrumentedB, instrumentedC));
+        var nothing = asList(flatMap(x->x, object));
+        assertEquals(List.of(1001, 1002, 1003), nothing);
+        assertClosed(object);
+        assertClosed(instrumentedA);
+        assertClosed(instrumentedB);
+        assertClosed(instrumentedC);
+    }
+
+    @Test
+    public void flatMapClosesInnermostIterableShort() {
+        var instrumentedA = closeSpy(List.of(1001));
+        var instrumentedB = closeSpy(List.of(1002));
+        var instrumentedC = closeSpy(List.of(1003));
+        var object = List.of(instrumentedA, instrumentedB, instrumentedC);
+        var nothing = asList(takeWhile(x -> x == 1001, flatMap(x->x, object)));
+        assertEquals(List.of(1001), nothing);
+        assertTrue(instrumentedA.isBalanced());
+        assertClosed(instrumentedA);
+        assertClosed(instrumentedB);
+    }
+
+    private void assertClosed(CloseSpyIterable<?> instrumented) {
         assertEquals(1, instrumented.getCloseCount());
     }
 }

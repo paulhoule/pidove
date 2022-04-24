@@ -3,7 +3,7 @@ package com.ontology2.pidove.checked;
 import java.util.Iterator;
 import java.util.function.Function;
 
-class MapIterable<X, Y> extends CleanIterable<Y> {
+class MapIterable<X, Y> extends TidyIterable<Y> {
     private final Iterable<X> values;
     private final Function<X, Y> fn;
 
@@ -17,7 +17,7 @@ class MapIterable<X, Y> extends CleanIterable<Y> {
         return new MapIterator(values);
     }
 
-    private class MapIterator extends AutoClosingIterator<X,Y> {
+    private class MapIterator extends TidyIterator<X,Y> {
 
         public MapIterator(Iterable<X> source) {
             super(source.iterator());

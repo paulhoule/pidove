@@ -39,15 +39,13 @@ public class Iterables {
     }
 
     @SafeVarargs
-    public static <X> CleanIterable<X> concat(Iterable<X>... values) {
+    public static <X> TidyIterable<X> concat(Iterable<X>... values) {
         return new ConcatIterable<>(values);
     }
 
     public static <X,Y,Z> Z collect(Collector<X, Y, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
-        var that = values.iterator();
         forEach((X item) -> collector.accumulator().accept(container, item) , values);
-
         if(collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
             //noinspection unchecked
             return (Z) container;
@@ -63,7 +61,7 @@ public class Iterables {
         return asSet(values);
     }
 
-    public static <X> CleanIterable<X> dropWhile(Predicate<? super X> predicate, Iterable<X> values) {
+    public static <X> TidyIterable<X> dropWhile(Predicate<? super X> predicate, Iterable<X> values) {
         return new DropWhileIterable<>(values, predicate);
     }
 
@@ -84,15 +82,15 @@ public class Iterables {
         }
     }
 
-    public static <X> CleanIterable<X> filter(Predicate<X> predicate, Iterable<X> values) {
+    public static <X> TidyIterable<X> filter(Predicate<X> predicate, Iterable<X> values) {
         return new FilterIterable<>(values, predicate);
     }
 
-    public static <X> Iterable<X> flatten(Iterable<? extends Iterable<X>> values) {
+    public static <X> TidyIterable<X> flatten(Iterable<? extends Iterable<X>> values) {
         return flatMap(identity(), values);
     }
 
-    public static <X,Y> Iterable<Y> flatMap(Function<X, ? extends Iterable<Y>> fn, Iterable<X> values) {
+    public static <X,Y> TidyIterable<Y> flatMap(Function<X, ? extends Iterable<Y>> fn, Iterable<X> values) {
         return new FlatMapIterable<>(values, fn);
     }
 
@@ -108,7 +106,7 @@ public class Iterables {
         return new LimitIterable<>(values, amount);
     }
 
-    public static <X,Y> CleanIterable<Y> map(Function<X,Y> fn, Iterable<X> values) {
+    public static <X,Y> TidyIterable<Y> map(Function<X,Y> fn, Iterable<X> values) {
         return new MapIterable<>(values, fn);
     }
 
@@ -226,7 +224,7 @@ public class Iterables {
         return i;
     }
 
-    public static <X> CleanIterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {
+    public static <X> TidyIterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {
         return new TakeWhileIterable<>(values, predicate);
     }
 
@@ -261,6 +259,9 @@ public class Iterables {
      * @throws RuntimeException if the AutoCloseable#close method is called and throws one
      */
     public static void close(Object that) throws RuntimeException {
+        if(isNull(that))
+            return;
+
         if(that instanceof AutoCloseable ac) {
             uncheck(ac::close);
         }

@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  *
  * @param <X>
  */
-public abstract class CleanIterable<X> implements Iterable<X> {
+public abstract class TidyIterable<X> implements Iterable<X> {
     /**
      * Overrides the default implementation such that the Iterator used internally
      * will be closed at the end of this method if that Iterator implements
