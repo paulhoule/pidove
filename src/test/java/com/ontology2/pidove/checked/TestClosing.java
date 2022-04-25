@@ -148,6 +148,13 @@ public class TestClosing {
         assertClosed(instrumented);
     }
 
+    @Test
+    public void noneCloses() {
+        var instrumented = closeSpy(List.of(true));
+        assertFalse(none(instrumented));
+        assertClosed(instrumented);
+    }
+
     private void assertClosed(CloseSpyIterable<?> instrumented) {
         assertEquals(1, instrumented.getCloseCount());
     }

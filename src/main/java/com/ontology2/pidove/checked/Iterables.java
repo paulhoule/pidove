@@ -123,11 +123,16 @@ public class Iterables {
     }
 
     public static boolean none(final Iterable<Boolean> values) {
-        for(boolean item: values) {
-            if(item)
-                return false;
+        var that = values.iterator();
+        try {
+            while(that.hasNext()) {
+                if(that.next())
+                    return false;
+            }
+            return true;
+        } finally {
+            close(that);
         }
-        return true;
     }
 
     public static <X> Iterable<X> of(final X x) {
