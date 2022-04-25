@@ -3,6 +3,7 @@ package com.ontology2.pidove.checked;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ontology2.pidove.checked.Fixtures.closeSpy;
@@ -128,6 +129,22 @@ public class TestClosing {
         var instrumented = closeSpy(range(100));
         var three = asList(limit(3, instrumented));
         assertEquals(List.of(0L,1L,2L), three);
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void maxCloses() {
+        var instrumented = closeSpy(range(5));
+        var four = max(instrumented).get();
+        assertEquals(4, four);
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void minCloses() {
+        CloseSpyIterable<String> instrumented = closeSpy(List.of());
+        var four = min(instrumented);
+        assertFalse(four.isPresent());
         assertClosed(instrumented);
     }
 

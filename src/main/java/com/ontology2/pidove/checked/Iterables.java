@@ -111,17 +111,7 @@ public class Iterables {
     }
 
     public static <X> Optional<X> max(final Iterable<X> values, Comparator<X> comparator) {
-        Optional<X> that=Optional.empty();
-        for(X item: values) {
-            if(that.isEmpty()) {
-                that = Optional.of(item);
-            } else {
-                if(comparator.compare(item, that.get())>0) {
-                    that = Optional.of(item);
-                }
-            }
-        }
-        return that;
+        return collect(Collectors.maxBy(comparator), values);
     }
 
     public static <X extends Comparable<X>> Optional<X> max(final Iterable<X> values) {
@@ -129,17 +119,7 @@ public class Iterables {
     }
 
     public static <X> Optional<X> min(Comparator<X> comparator, final Iterable<X> values) {
-        Optional<X> that=Optional.empty();
-        for(X item: values) {
-            if(that.isEmpty()) {
-                that = Optional.of(item);
-            } else {
-                if(comparator.compare(item, that.get())<0) {
-                    that = Optional.of(item);
-                }
-            }
-        }
-        return that;
+        return collect(Collectors.minBy(comparator), values);
     }
 
     public static boolean none(final Iterable<Boolean> values) {
