@@ -16,7 +16,7 @@ public class TestExamplesFromReadmeFile {
 
     @Test
     public void tryASum() {
-        assertEquals(10, sum(filter(x-> x%2 == 0, List.of(5,3,4,19,75,6))));
+        assertEquals(10, sumInt(filter(x-> x%2 == 0, List.of(5,3,4,19,75,6))));
     }
 
     @Test

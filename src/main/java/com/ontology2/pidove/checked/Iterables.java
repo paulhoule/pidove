@@ -197,16 +197,20 @@ public class Iterables {
         return collect(Collectors.reducing(identity, accumulator), values);
     }
 
-    public static <X> Iterable<X> skip(final int amount, final Iterable<X> values) {
+    public static <X> TidyIterable<X> skip(final int amount, final Iterable<X> values) {
         return new SkipIterable<>(values, amount);
     }
 
-    public static long sum(Iterable<Integer> values) {
-        long i=0;
-        for(int any:values) {
-            i += any;
-        }
-        return i;
+    public static int sumInt(Iterable<Integer> values) {
+        return collect(Collectors.summingInt(x-> x), values);
+    }
+
+    public static long sumLong(Iterable<Long> values) {
+        return collect(Collectors.summingLong(x->x), values);
+    }
+
+    public static double sumDouble(Iterable<Double> values) {
+        return collect(Collectors.summingDouble(x->x), values);
     }
 
     public static <X> TidyIterable<X> takeWhile(Predicate<? super X> predicate, Iterable<X> values) {

@@ -135,7 +135,7 @@ public class TestClosing {
     @Test
     public void maxCloses() {
         var instrumented = closeSpy(range(5));
-        var four = max(instrumented).get();
+        var four = max(instrumented).orElseThrow();
         assertEquals(4, four);
         assertClosed(instrumented);
     }
@@ -152,6 +152,34 @@ public class TestClosing {
     public void noneCloses() {
         var instrumented = closeSpy(List.of(true));
         assertFalse(none(instrumented));
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void skipCloses() {
+        var instrumented = closeSpy(List.of(true));
+        assertEquals(0, count(skip(5, instrumented)));
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void sumIntCloses() {
+        CloseSpyIterable<Integer> instrumented = closeSpy(List.of());
+        assertEquals(0, sumInt(instrumented));
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void sumLongCloses() {
+        CloseSpyIterable<Long> instrumented = closeSpy(List.of());
+        assertEquals(0, sumLong(instrumented));
+        assertClosed(instrumented);
+    }
+
+    @Test
+    public void sumDoubleCloses() {
+        CloseSpyIterable<Double> instrumented = closeSpy(List.of());
+        assertEquals(0.0, sumDouble(instrumented));
         assertClosed(instrumented);
     }
 
