@@ -34,11 +34,31 @@ public class Exceptions {
         }
     }
 
+    public static <X> X uncheck(ExceptionalSupplier<X> that) {
+        try {
+            return that.get();
+        } catch(InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return null;
+        } catch(Exception e) {
+            if(e instanceof RuntimeException rt) {
+                throw rt;
+            } else {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public static Runnable unchecked(ExceptionalRunnable that) {
         return () -> uncheck(that);
     }
     @FunctionalInterface
     public interface ExceptionalRunnable {
         void run() throws Exception;
+    }
+
+    @FunctionalInterface
+    public interface ExceptionalSupplier<X> {
+        X get() throws Exception;
     }
 }

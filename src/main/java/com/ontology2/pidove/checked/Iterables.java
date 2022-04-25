@@ -1,5 +1,8 @@
 package com.ontology2.pidove.checked;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
@@ -165,6 +168,14 @@ public class Iterables {
         return map(e->new Pair<>(e.getKey(), e.getValue()), that.entrySet());
     }
 
+    public static Iterable<String> over(SupplierOfInputStream source) {
+        return new LinesIterable(() -> new BufferedReader(new InputStreamReader(source.get())));
+    }
+
+    public static Iterable<String> over(SupplierOfBufferedReader source) {
+        return new LinesIterable(source);
+    }
+
     public static <X> TidyIterable<X> peek(Consumer<X> listener, final Iterable<X> values) {
         return new PeekIterable<>(values, listener);
     }
@@ -255,4 +266,10 @@ public class Iterables {
             uncheck(ac::close);
         }
     }
+
+    @FunctionalInterface
+    interface SupplierOfBufferedReader extends Supplier<BufferedReader> {};
+
+    @FunctionalInterface
+    interface SupplierOfInputStream extends Supplier<InputStream> {};
 }
