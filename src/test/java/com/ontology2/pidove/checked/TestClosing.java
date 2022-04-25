@@ -123,6 +123,14 @@ public class TestClosing {
         assertClosed(instrumentedB);
     }
 
+    @Test
+    public void limitCloses() {
+        var instrumented = closeSpy(range(100));
+        var three = asList(limit(3, instrumented));
+        assertEquals(List.of(0L,1L,2L), three);
+        assertClosed(instrumented);
+    }
+
     private void assertClosed(CloseSpyIterable<?> instrumented) {
         assertEquals(1, instrumented.getCloseCount());
     }

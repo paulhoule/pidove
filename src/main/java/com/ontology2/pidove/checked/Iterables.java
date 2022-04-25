@@ -102,7 +102,7 @@ public class Iterables {
         return new IterateIterable<>(seed, f);
     }
 
-    public static <X> Iterable<X> limit(final int amount, Iterable<X> values) {
+    public static <X> TidyIterable<X> limit(final int amount, Iterable<X> values) {
         return new LimitIterable<>(values, amount);
     }
 

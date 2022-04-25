@@ -3,7 +3,7 @@ package com.ontology2.pidove.checked;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class LimitIterable<X> implements Iterable<X> {
+class LimitIterable<X> extends TidyIterable<X> {
 
     private final Iterable<X> values;
     private final int amount;
@@ -15,23 +15,28 @@ class LimitIterable<X> implements Iterable<X> {
 
     @Override
     public Iterator<X> iterator() {
-        final var that = values.iterator();
-        return new Iterator<>() {
-            int count;
+        return new LimitIterator(values);
+    }
 
-            @Override
-            public boolean hasNext() {
-                return that.hasNext() && count < amount;
-            }
+    private class LimitIterator extends TidyIterator<X,X> {
+        int count;
 
-            @Override
-            public X next() {
-                if (count > amount) {
-                    throw new NoSuchElementException();
-                }
-                count++;
-                return that.next();
+        public LimitIterator(Iterable<X> values) {
+            super(values.iterator());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return that.hasNext() && count < amount;
+        }
+
+        @Override
+        public X next() {
+            if (count > amount) {
+                throw new NoSuchElementException();
             }
-        };
+            count++;
+            return that.next();
+        }
     }
 }
