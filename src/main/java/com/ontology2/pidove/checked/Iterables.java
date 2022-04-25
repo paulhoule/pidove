@@ -122,6 +122,10 @@ public class Iterables {
         return collect(Collectors.minBy(comparator), values);
     }
 
+    public static <X extends Comparable<X>> Optional<X> min(final Iterable<X> values) {
+        return min(Comparator.naturalOrder(), values);
+    }
+
     public static boolean none(final Iterable<Boolean> values) {
         var that = values.iterator();
         try {
@@ -161,11 +165,7 @@ public class Iterables {
         return map(e->new Pair<>(e.getKey(), e.getValue()), that.entrySet());
     }
 
-    public static <X extends Comparable<X>> Optional<X> min(final Iterable<X> values) {
-        return min(Comparator.naturalOrder(), values);
-    }
-
-    public static <X> Iterable<X> peek(Consumer<X> listener, final Iterable<X> values) {
+    public static <X> TidyIterable<X> peek(Consumer<X> listener, final Iterable<X> values) {
         return new PeekIterable<>(values, listener);
     }
 

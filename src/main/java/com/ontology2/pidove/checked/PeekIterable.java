@@ -3,7 +3,7 @@ package com.ontology2.pidove.checked;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-class PeekIterable<X> implements Iterable<X> {
+class PeekIterable<X> extends TidyIterable<X> {
     private final Iterable<X> values;
     private final Consumer<X> listener;
 
@@ -14,20 +14,25 @@ class PeekIterable<X> implements Iterable<X> {
 
     @Override
     public Iterator<X> iterator() {
-        Iterator<X> that = values.iterator();
+        return new PeekIterator(values);
+    }
 
-        return new Iterator<>() {
-            @Override
-            public boolean hasNext() {
-                return that.hasNext();
-            }
+    private class PeekIterator extends TidyIterator<X, X> {
 
-            @Override
-            public X next() {
-                var value = that.next();
-                listener.accept(value);
-                return value;
-            }
-        };
+        public PeekIterator(Iterable<X> values) {
+            super(values.iterator());
+        }
+
+        @Override
+        public boolean hasNext() {
+            return that.hasNext();
+        }
+
+        @Override
+        public X next() {
+            var value = that.next();
+            listener.accept(value);
+            return value;
+        }
     }
 }

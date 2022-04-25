@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ontology2.pidove.checked.Fixtures.closeSpy;
 import static com.ontology2.pidove.checked.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,5 +17,12 @@ public class TestPeek {
         var honey = List.of('p','a','s','t','a');
         assertEquals(honey, asList(peek(sink::add, pasta)));
         assertEquals(honey, sink);
+    }
+
+    @Test
+    public void andItCloses() {
+        var instrumented = closeSpy(List.of());
+        assertEquals(0, count(peek(x-> {}, instrumented)));
+        assertEquals(1, instrumented.getCloseCount());
     }
 }
