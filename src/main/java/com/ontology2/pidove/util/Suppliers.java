@@ -1,4 +1,4 @@
-package com.ontology2.pidove.seq;
+package com.ontology2.pidove.util;
 
 import java.util.function.Supplier;
 

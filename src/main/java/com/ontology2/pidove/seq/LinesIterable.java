@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
-import static com.ontology2.pidove.seq.Exceptions.uncheck;
+import static com.ontology2.pidove.util.DuctTape.uncheck;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 

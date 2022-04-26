@@ -1,4 +1,6 @@
-package com.ontology2.pidove.seq;
+package com.ontology2.pidove.util;
+
+import com.ontology2.pidove.util.DefaultMap;
 
 import java.util.*;
 

@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 
 import static com.ontology2.pidove.seq.Iterables.*;
-import static com.ontology2.pidove.seq.Suppliers.iterable;
+import static com.ontology2.pidove.util.Suppliers.iterable;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestGenerate {

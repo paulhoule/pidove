@@ -1,5 +1,7 @@
 package com.ontology2.pidove.seq;
 
+import com.ontology2.pidove.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,7 +10,7 @@ import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static com.ontology2.pidove.seq.Exceptions.uncheck;
+import static com.ontology2.pidove.util.DuctTape.uncheck;
 import static java.util.Objects.isNull;
 import static java.util.function.Function.*;
 

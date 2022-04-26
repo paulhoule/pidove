@@ -1,5 +1,6 @@
 package com.ontology2.pidove.seq;
 
+import com.ontology2.pidove.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,4 +1,6 @@
-package com.ontology2.pidove.seq;
+package com.ontology2.pidove.util;
+
+import java.util.function.Supplier;
 
 /**
  * Sometimes an Exception happens inside a method which isn't allowed to throw an
@@ -11,8 +13,12 @@ package com.ontology2.pidove.seq;
  *
  */
 
-public class Exceptions {
+public class DuctTape {
 
+    @SuppressWarnings("unchecked")
+    public static <X> X cast(Object o) {
+        return (X) o;
+    }
 
     /**
      * Wraps a method that could throw an Exception such that non-RuntimeExceptions are wrapped
@@ -52,6 +58,11 @@ public class Exceptions {
     public static Runnable unchecked(ExceptionalRunnable that) {
         return () -> uncheck(that);
     }
+
+    public static <X> Supplier<X> unchecked(ExceptionalSupplier<X> that) {
+        return () -> uncheck(that);
+    }
+
     @FunctionalInterface
     public interface ExceptionalRunnable {
         void run() throws Exception;
