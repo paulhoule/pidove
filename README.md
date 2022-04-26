@@ -22,10 +22,8 @@ that they contain.
 ## Sample code
 
 ```java
-import static com.ontology2.pidove.checked.Iterables.*;
-
-over("bushfire").forEach(System.out::println);
-sum(filter(x-> x%2 == 0,List.of(5,3,4,19,75,6)));
-collect(groupingBy(word-> word.charAt(0)), words);
+    over("bushfire").forEach(System.out::println);
+    sum(filter(x->x%2==0,List.of(5,3,4,19,75,6)));
+    collect(groupingBy(word->word.charAt(0)),words);
 ```
 
