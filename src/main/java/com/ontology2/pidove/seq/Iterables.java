@@ -5,12 +5,17 @@ import com.ontology2.pidove.util.Pair;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static com.ontology2.pidove.util.DuctTape.uncheck;
+import static com.ontology2.pidove.util.DuctTape.unchecked;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.isNull;
 import static java.util.function.Function.*;
 
@@ -168,6 +173,10 @@ public class Iterables {
 
     public static <X,Y> Iterable<Pair<X,Y>> over(final Map<X,Y> that) {
         return map(e->new Pair<>(e.getKey(), e.getValue()), that.entrySet());
+    }
+
+    public static Iterable<String> over(Path path) {
+        return new LinesIterable(unchecked(() -> Files.newBufferedReader(path, UTF_8)));
     }
 
     public static Iterable<String> over(SupplierOfInputStream source) {
