@@ -303,6 +303,9 @@ public class Iterables {
         return new EnumerateIterable(values,start);
     }
 
+    public static<X> Iterable<X> reversed(Iterable<X> values) {
+        return new ReversedIterable(values);
+    }
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 

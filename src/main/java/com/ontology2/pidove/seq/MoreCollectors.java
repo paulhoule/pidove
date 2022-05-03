@@ -30,4 +30,11 @@ public class MoreCollectors {
     public static <X> Collector<X,?,Integer> countDistinct() {
         return collectingAndThen(toSet(), Set::size);
     }
+
+    public static Collector<Character, StringBuilder, String> characters() {
+        return Collector.of(StringBuilder::new,
+                (a,x) -> a.append(x),
+                (a,b) -> a.append(b),
+                StringBuilder::toString);
+    }
 }

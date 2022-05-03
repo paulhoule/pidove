@@ -4,6 +4,7 @@ import com.ontology2.pidove.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.ontology2.pidove.seq.Fixtures.closeSpy;
@@ -183,6 +184,12 @@ public class TestClosing {
         assertClosed(instrumented);
     }
 
+    @Test
+    public void reverseCloses() {
+        CloseSpyIterable<String> instrumented = closeSpy(List.of("I","Like","The","Way","You","Werk","It"));
+        assertEquals(Optional.of("It"), first(reversed(instrumented)));
+        assertClosed(instrumented);
+    }
     private void assertClosed(CloseSpyIterable<?> instrumented) {
         assertEquals(1, instrumented.getCloseCount());
     }
