@@ -306,6 +306,10 @@ public class Iterables {
     public static<X> Iterable<X> reversed(Iterable<X> values) {
         return new ReversedIterable(values);
     }
+
+    public static<X,Y> Iterable<Pair<X,Y>> zip(Iterable<X> one,Iterable<Y> two) {
+        return new Zip2Iterable(one,two);
+    }
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
