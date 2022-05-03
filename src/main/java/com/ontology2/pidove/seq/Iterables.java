@@ -5,7 +5,6 @@ import com.ontology2.pidove.util.Pair;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -278,9 +277,36 @@ public class Iterables {
         }
     }
 
+    /**
+     * Based on Python's enumerate() function,  which given an iterable that returns A, B, C, ... returns the
+     * following pairs (0,A), (1,B), (2,C), ...
+     *
+     * @param values an input iterable
+     * @return an iterable of numbered pairs
+     * @param <X> type of the inner iterable
+     */
+    public static <X> Iterable<Pair<Long,X>> enumerate(Iterable<X> values) {
+        return new EnumerateIterable(values,0L);
+    }
+
+    /**
+     * Based on Python's enumerate() function,  which given an iterable that returns A, B, C, ... returns the
+     * following pairs (start,A), (start+1,B), (start+2,C), ...
+     *
+     * @param start beginning value of iterator
+     * @param values an input iterable
+     * @return an iterable of numbered pairs
+     * @param <X> type of the inner iterable
+     */
+
+    public static <X> Iterable<Pair<Long,X>> enumerate(Long start, Iterable<X> values) {
+        return new EnumerateIterable(values,start);
+    }
+
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
     @FunctionalInterface
     interface SupplierOfInputStream extends Supplier<InputStream> {}
+
 }
