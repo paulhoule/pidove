@@ -3,7 +3,7 @@ package com.ontology2.pidove.seq;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-class PeekIterable<X> extends TidyIterable<X> {
+class PeekIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
     private final Consumer<X> listener;
 

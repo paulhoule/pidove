@@ -2,7 +2,7 @@ package com.ontology2.pidove.seq;
 
 import java.util.Iterator;
 
-class SkipIterable<X> extends TidyIterable<X> {
+class SkipIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
     private final int amount;
 

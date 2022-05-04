@@ -339,6 +339,10 @@ public class Iterables {
         return new RepeatIterable<>(times,value);
     }
 
+    public static <X> Iterable<X> accumulate(BinaryOperator<X> func, Iterable<X> value) {
+        return new AccumulateIterable<>(func, value);
+    }
+
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 

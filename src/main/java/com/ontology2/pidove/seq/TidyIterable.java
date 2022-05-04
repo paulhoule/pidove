@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  *
  * @param <X>
  */
-public abstract class TidyIterable<X> implements Iterable<X> {
+public interface TidyIterable<X> extends Iterable<X> {
     /**
      * Overrides the default implementation such that the Iterator used internally
      * will be closed at the end of this method if that Iterator implements
@@ -19,7 +19,7 @@ public abstract class TidyIterable<X> implements Iterable<X> {
      * @param action The action to be performed for each element
      */
     @Override
-    public void forEach(Consumer<? super X> action) {
+    default void forEach(Consumer<? super X> action) {
         Iterables.forEach(action, this);
     }
 }

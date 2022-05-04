@@ -10,7 +10,7 @@ import static com.ontology2.pidove.util.DuctTape.uncheck;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-class LinesIterable extends TidyIterable<String> {
+class LinesIterable implements TidyIterable<String> {
     private final Supplier<BufferedReader> source;
 
     public LinesIterable(Supplier<BufferedReader> source) {

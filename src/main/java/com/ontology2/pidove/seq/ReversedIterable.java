@@ -10,7 +10,7 @@ import java.util.Iterator;
  *
  * @param <X>
  */
-public class ReversedIterable<X> extends TidyIterable<X> {
+public class ReversedIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
 
     public ReversedIterable(Iterable<X>  values) {

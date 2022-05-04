@@ -3,7 +3,7 @@ package com.ontology2.pidove.seq;
 import java.util.Iterator;
 import java.util.function.Function;
 
-class MapIterable<X, Y> extends TidyIterable<Y> {
+class MapIterable<X, Y> implements TidyIterable<Y> {
     private final Iterable<X> values;
     private final Function<X, Y> fn;
 

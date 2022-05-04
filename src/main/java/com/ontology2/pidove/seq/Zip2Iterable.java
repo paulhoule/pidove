@@ -4,7 +4,7 @@ import com.ontology2.pidove.util.Pair;
 
 import java.util.Iterator;
 
-public class Zip2Iterable<X,Y> extends TidyIterable<Pair<X, Y>> {
+public class Zip2Iterable<X,Y> implements TidyIterable<Pair<X, Y>> {
     private final Iterable<X> one;
     private final Iterable<Y> two;
 

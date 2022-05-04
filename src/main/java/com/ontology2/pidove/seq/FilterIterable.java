@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
-class FilterIterable<X> extends TidyIterable<X> {
+class FilterIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
     private final Predicate<X> predicate;
 

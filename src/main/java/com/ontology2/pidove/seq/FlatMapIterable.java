@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-class FlatMapIterable<X, Y> extends TidyIterable<Y> {
+class FlatMapIterable<X, Y> implements TidyIterable<Y> {
 
     private final Iterable<X> values;
     private final Function<X, ? extends Iterable<Y>> fn;

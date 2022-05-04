@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import static java.util.Objects.isNull;
 
-public class CycleIterable<X> extends TidyIterable<X> {
+public class CycleIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
 
     public CycleIterable(Iterable<X> values) {

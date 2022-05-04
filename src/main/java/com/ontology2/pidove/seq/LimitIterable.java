@@ -3,7 +3,7 @@ package com.ontology2.pidove.seq;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class LimitIterable<X> extends TidyIterable<X> {
+class LimitIterable<X> implements TidyIterable<X> {
 
     private final Iterable<X> values;
     private final int amount;
