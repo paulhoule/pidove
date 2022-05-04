@@ -44,4 +44,40 @@ public class TestCycle {
         assertEquals(263, s.apply(10));
         assert(x.isBalanced());
     }
+
+    @Test
+    public void itRepeatsItself() {
+        var x = closeSpy(Iterables.cycle(15, List.of('=')));
+        var s=collect(characters(), x);
+        assertEquals("===============", s);
+        assert(x.isBalanced());
+    }
+
+    @Test
+    public void repeatsNever() {
+        var x = closeSpy(Iterables.cycle(0, List.of('=')));
+        var s=collect(characters(), x);
+        assertEquals("", s);
+        assert(x.isBalanced());
+    }
+
+    @Test
+    public void repeatsSequence() {
+        var x = closeSpy(Iterables.cycle(7, List.of('~','#','~',' ')));
+        var s=collect(characters(), x);
+        assertEquals("~#~ ~#~ ~#~ ~#~ ~#~ ~#~ ~#~", s.trim());
+        assert(x.isBalanced());
+    }
+
+    @Test
+    public void andRepeatsZero() {
+        var s = collect(characters(), repeat(0, '+'));
+        assertEquals("",s);
+    }
+
+    @Test
+    public void andRepeatsThree() {
+        var s = collect(characters(), repeat(3, '+'));
+        assertEquals("+++",s);
+    }
 }

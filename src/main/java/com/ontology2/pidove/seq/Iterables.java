@@ -321,6 +321,24 @@ public class Iterables {
         return new CycleIterable<>(values);
     }
 
+    /**
+     * Like the cycle function from Python's itertools but you can specify how
+     * many cycles you want
+     *
+     * @param times number of cycles
+     * @param values we draw from these values
+     * @return an Iterable that repeats values times times
+     * @param <X> arbitrary type
+     */
+
+    public static <X> TidyIterable<X> cycle(long times, Iterable<X> values) {
+        return new FiniteCycleIterable<>(times,values);
+    }
+
+    public static <X> Iterable<X> repeat(long times, X value) {
+        return new RepeatIterable<>(times,value);
+    }
+
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
