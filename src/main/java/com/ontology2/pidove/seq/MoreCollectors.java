@@ -33,8 +33,15 @@ public class MoreCollectors {
 
     public static Collector<Character, StringBuilder, String> characters() {
         return Collector.of(StringBuilder::new,
-                (a,x) -> a.append(x),
-                (a,b) -> a.append(b),
+                StringBuilder::append,
+                StringBuilder::append,
                 StringBuilder::toString);
     }
+
+//    public <X> static Collector<X super CharSequence, StringBuilder, String> joiningOn(String separator) {
+//        return Collector.of(StringBuilder::new,
+//                (a,x) -> a.append(x),
+//                (a,b) -> a.append(b),
+//                StringBuilder::toString);
+//    }
 }

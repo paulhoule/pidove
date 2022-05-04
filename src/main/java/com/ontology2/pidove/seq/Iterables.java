@@ -1,6 +1,7 @@
 package com.ontology2.pidove.seq;
 
 import com.ontology2.pidove.util.Pair;
+import com.ontology2.pidove.util.Triad;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -52,7 +53,7 @@ public class Iterables {
         return new ConcatIterable<>(values);
     }
 
-    public static <X,Y,Z> Z collect(Collector<X, Y, Z> collector, Iterable<X> values) {
+    public static <X,Y,Z> Z collect(Collector<? super X, Y, Z> collector, Iterable<X> values) {
         var container = collector.supplier().get();
         forEach((X item) -> collector.accumulator().accept(container, item) , values);
         if(collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)) {
@@ -286,7 +287,7 @@ public class Iterables {
      * @param <X> type of the inner iterable
      */
     public static <X> Iterable<Pair<Long,X>> enumerate(Iterable<X> values) {
-        return new EnumerateIterable(values,0L);
+        return new EnumerateIterable<>(values,0L);
     }
 
     /**
@@ -300,16 +301,26 @@ public class Iterables {
      */
 
     public static <X> Iterable<Pair<Long,X>> enumerate(Long start, Iterable<X> values) {
-        return new EnumerateIterable(values,start);
+        return new EnumerateIterable<>(values,start);
     }
 
-    public static<X> Iterable<X> reversed(Iterable<X> values) {
-        return new ReversedIterable(values);
+    public static <X> Iterable<X> reversed(Iterable<X> values) {
+        return new ReversedIterable<>(values);
     }
 
-    public static<X,Y> Iterable<Pair<X,Y>> zip(Iterable<X> one,Iterable<Y> two) {
-        return new Zip2Iterable(one,two);
+    public static <X,Y> Iterable<Pair<X,Y>> zip(Iterable<X> one,Iterable<Y> two) {
+
+        return new Zip2Iterable<>(one,two);
     }
+
+    public static <X,Y,Z> Iterable<Triad<X,Y,Z>> zip(Iterable<X> one, Iterable<Y> two, Iterable<Z> three) {
+        return new Zip3Iterable<>(one,two,three);
+    }
+
+    public static <X> TidyIterable<X> cycle(Iterable<X> values) {
+        return new CycleIterable<>(values);
+    }
+
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
