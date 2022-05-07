@@ -6,9 +6,9 @@ import java.util.function.Predicate;
 
 class FilterIterable<X> implements TidyIterable<X> {
     private final Iterable<X> values;
-    private final Predicate<X> predicate;
+    private final Predicate<? super X> predicate;
 
-    public FilterIterable(Iterable<X> values, Predicate<X> predicate) {
+    public FilterIterable(Iterable<X> values, Predicate<? super X> predicate) {
         this.values = values;
         this.predicate = predicate;
     }

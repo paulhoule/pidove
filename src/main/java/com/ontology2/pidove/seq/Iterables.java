@@ -92,7 +92,7 @@ public class Iterables {
         }
     }
 
-    public static <X> TidyIterable<X> filter(Predicate<X> predicate, Iterable<X> values) {
+    public static <X> TidyIterable<X> filter(Predicate<? super X> predicate, Iterable<X> values) {
         return new FilterIterable<>(values, predicate);
     }
 
@@ -341,6 +341,14 @@ public class Iterables {
 
     public static <X> Iterable<X> accumulate(BinaryOperator<X> func, Iterable<X> value) {
         return new AccumulateIterable<>(func, value);
+    }
+
+    public static <X> Iterable<X> compress(Iterable<Boolean> filter, Iterable<X> value) {
+        return map(Pair::right,filter(Pair::left,zip(filter,value)));
+    }
+
+    public static <X> Iterable<X> filterFalse(Predicate<X> p, Iterable<X> values) {
+        return filter(p.negate(), values);
     }
 
     @FunctionalInterface
