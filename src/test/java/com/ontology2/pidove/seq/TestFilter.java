@@ -69,4 +69,11 @@ public class TestFilter {
         assertEquals(1, instrumented.getCloseCount());
     }
 
+    @Test
+    public void andTheOtherWayAround() {
+        var list = splitOn(" ","blue light special on truth");
+        var result = filterFalse(x-> x.length() % 2 == 0, list);
+        assertEquals("light special truth",joinOn(" ", result));
+    }
+
 }

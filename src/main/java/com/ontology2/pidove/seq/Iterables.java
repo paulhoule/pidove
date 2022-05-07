@@ -187,6 +187,14 @@ public class Iterables {
         return new LinesIterable(source);
     }
 
+    public static Iterable<String> splitOn(String regex, String source) {
+        return over(source.split(regex));
+    }
+
+    public static Iterable<String> splitOn(String regex, int limit, String source) {
+        return over(source.split(regex, limit));
+    }
+
     public static <X> TidyIterable<X> peek(Consumer<X> listener, final Iterable<X> values) {
         return new PeekIterable<>(values, listener);
     }
@@ -254,9 +262,14 @@ public class Iterables {
         }
     }
 
+
     public static <X> Set<X> asSet(Iterable<X> values) {
         return collect(Collectors.toSet(), values);
     }
+
+    public static String joinOn(CharSequence separator,Iterable<? extends CharSequence> values) {
+        return collect(Collectors.joining(separator), values);
+    };
 
     public static <X,Y> Map<X,Y> asMap(Iterable<Pair<X,Y>> pairs) {
         return collect(Collectors.toMap(Pair::left, Pair::right), pairs);
