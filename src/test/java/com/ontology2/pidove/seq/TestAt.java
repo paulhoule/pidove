@@ -4,12 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.function.Function;
 
 import static com.ontology2.pidove.seq.Iterables.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAt {
     @Test
@@ -19,8 +16,9 @@ public class TestAt {
         assertEquals("does", at(1, a));
         assertEquals("it", at(-2, a));
         assertEquals("feel?", at(-1, a));
+        //noinspection ResultOfMethodCallIgnored
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> at(153, a));
-    };
+    }
 
     @Test
     public void fromList() {
@@ -30,7 +28,7 @@ public class TestAt {
         assertEquals("werk", at(-2, l));
         assertEquals("it.", at(-1, l));
         assertThrows(IndexOutOfBoundsException.class, () -> at(-44, l));
-    };
+    }
 
     @Test
     public void fromLinkedList() {
@@ -42,7 +40,7 @@ public class TestAt {
         assertEquals("werk", at(-2, l));
         assertEquals("it.", at(-1, l));
         assertThrows(IndexOutOfBoundsException.class, () -> at(-8, l));
-    };
+    }
 
     //
     // For now range returns a generic iterator but now that I think about it
@@ -63,7 +61,7 @@ public class TestAt {
         assertEquals(14, at(-1, r));
         assertThrows(IndexOutOfBoundsException.class, () -> at(5, r));
         assertThrows(IndexOutOfBoundsException.class, () -> at(-6, r));
-    };
+    }
 
     @Test
     public void fromEmpty() {
@@ -71,7 +69,7 @@ public class TestAt {
         assertThrows(IndexOutOfBoundsException.class, () -> at(0,r));
         assertThrows(IndexOutOfBoundsException.class, () -> at(1,r));
         assertThrows(IndexOutOfBoundsException.class, () -> at(-1,r));
-    };
+    }
 
     @Test
     public void testTail() {
