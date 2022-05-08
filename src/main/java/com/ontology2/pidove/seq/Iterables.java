@@ -364,6 +364,93 @@ public class Iterables {
         return filter(p.negate(), values);
     }
 
+    public static <X> X at(int index, X[] values) {
+        if (index>=0)
+            return values[index];
+
+        return values[values.length+index];
+    }
+
+    /**
+     * Like the indexing operator in Python.
+     *
+     * @param index index into the iterable
+     * @param values an iterable
+     * @return the index-th element from the beginning (starting from zero) for a positive index and will
+     * return the (-index)-th element from the end (starting at -1) for a negative index
+     * @param <X> type contained by iterable.
+     */
+    public static <X> X at(int index, Iterable<X> values) {
+        try {
+            return switch (values) {
+                case List<X> l -> index >= 0 ? l.get(index) : l.get(l.size() + index);
+                case Iterable<X> x && index >= 0 -> first(skip(index, x)).orElseThrow();
+                default -> atNegative(-index, values);
+            };
+        } catch(NoSuchElementException|IndexOutOfBoundsException x) {
+            throw new IndexOutOfBoundsException(index);
+        }
+    }
+    private static <X> X atNegative(int index, Iterable<X> x) {
+        var i = tail(index, x).iterator();
+        try {
+            try {
+                return i.next();
+            } finally {
+                for(int j=1;j<index;j++) {
+                    i.next();
+                }
+            }
+        } finally {close(i);}
+    }
+
+    /**
+     *
+     * Note this uses somewhat different algorithms for different cases,  since it is easy
+     * to pick the last N elements off the end of a RandomAccess List,  but quite a hassle
+     * in comparison in the generic case where we have to keep a running memory of the
+     * last N elements we've seen.
+     *
+     * @param amount number of elements
+     * @param x an iterable
+     * @return an iterable of the last "amount" elements of the iterable
+     * @param <X>
+     */
+    public static <X> Iterable<X> tail(int amount, Iterable<X> x) {
+        return switch(x) {
+            case List<X> l && l instanceof RandomAccess -> tailList(amount,l);
+            // not the special case of using ListIterator to read a LinkedList backwards.
+            case Collection<X> c -> tailCollection(amount,c);
+            default -> tailDefault(amount,x);
+        };
+
+    };
+
+    private static<X> TidyIterable<X> tailList(int index,List<X> x) {
+        int thatIndex = x.size()-index;
+        thatIndex = thatIndex >0 ? thatIndex : 0;
+        return map(i -> x.get(i.intValue()),range(thatIndex,x.size()));
+    }
+
+    private static<X> TidyIterable<X> tailCollection(int index,Collection<X> x) {
+        int thatIndex = x.size()-index;
+        thatIndex = thatIndex >0 ? thatIndex : 0;
+        return skip(thatIndex,x);
+    }
+
+    private static<X> Iterable<X> tailDefault(int index,Iterable<X> x) {
+        return new PrecaclulatedIterable<>(x, (y) -> {
+            final var d = new ArrayDeque<X>();
+            for(final var item: x) {
+                d.addLast(item);
+                if (d.size()>index)
+                    d.removeFirst();
+            }
+            return d.iterator();
+        });
+
+    }
+
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
