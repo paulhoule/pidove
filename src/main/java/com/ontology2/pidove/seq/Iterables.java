@@ -458,7 +458,10 @@ public class Iterables {
             }
             return d.iterator();
         });
+    }
 
+    public static <X> Iterable<Pair<X,X>> pairwise(Iterable<X> values) {
+        return new PairwiseIterable<>(values);
     }
 
     @FunctionalInterface
