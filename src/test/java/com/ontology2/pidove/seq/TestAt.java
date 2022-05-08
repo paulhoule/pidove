@@ -32,6 +32,18 @@ public class TestAt {
         assertThrows(IndexOutOfBoundsException.class, () -> at(-44, l));
     };
 
+    @Test
+    public void fromLinkedList() {
+        List<String> l = new LinkedList<>();
+        splitOn(" ","I like the way you werk it.").forEach(l::add);
+        assertEquals("I", at(0, l));
+        assertEquals("like", at(1, l));
+        assertEquals("I", at(-7, l));
+        assertEquals("werk", at(-2, l));
+        assertEquals("it.", at(-1, l));
+        assertThrows(IndexOutOfBoundsException.class, () -> at(-8, l));
+    };
+
     //
     // For now range returns a generic iterator but now that I think about it
     // range could reasonably be a list

@@ -385,12 +385,22 @@ public class Iterables {
             return switch (values) {
                 case List<X> l -> index >= 0 ? l.get(index) : l.get(l.size() + index);
                 case Iterable<X> x && index >= 0 -> first(skip(index, x)).orElseThrow();
+                case Collection<X> x -> atNegativeCollection(index, x);
                 default -> atNegative(-index, values);
             };
-        } catch(NoSuchElementException|IndexOutOfBoundsException x) {
+        } catch(NoSuchElementException x) {
             throw new IndexOutOfBoundsException(index);
         }
     }
+
+    private static <X> X atNegativeCollection(int index, Collection<X> x) {
+        if(x.size()>index) {
+            return first(skip(x.size()-index,x)).orElseThrow();
+        } else {
+            throw new IndexOutOfBoundsException(index);
+        }
+    }
+
     private static <X> X atNegative(int index, Iterable<X> x) {
         var i = tail(index, x).iterator();
         try {
