@@ -1,7 +1,7 @@
 package com.ontology2.pidove.seq;
 
 import com.ontology2.pidove.util.Pair;
-import com.ontology2.pidove.util.Triad;
+import com.ontology2.pidove.util.Trio;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -269,7 +269,7 @@ public class Iterables {
 
     public static String joinOn(CharSequence separator,Iterable<? extends CharSequence> values) {
         return collect(Collectors.joining(separator), values);
-    };
+    }
 
     public static <X,Y> Map<X,Y> asMap(Iterable<Pair<X,Y>> pairs) {
         return collect(Collectors.toMap(Pair::left, Pair::right), pairs);
@@ -326,7 +326,7 @@ public class Iterables {
         return new Zip2Iterable<>(one,two);
     }
 
-    public static <X,Y,Z> Iterable<Triad<X,Y,Z>> zip(Iterable<X> one, Iterable<Y> two, Iterable<Z> three) {
+    public static <X,Y,Z> Iterable<Trio<X,Y,Z>> zip(Iterable<X> one, Iterable<Y> two, Iterable<Z> three) {
         return new Zip3Iterable<>(one,two,three);
     }
 
@@ -424,7 +424,7 @@ public class Iterables {
      * @param amount number of elements
      * @param x an iterable
      * @return an iterable of the last "amount" elements of the iterable
-     * @param <X>
+     * @param <X> type returned by iterable
      */
     public static <X> Iterable<X> tail(int amount, Iterable<X> x) {
         return switch(x) {
@@ -433,18 +433,17 @@ public class Iterables {
             case Collection<X> c -> tailCollection(amount,c);
             default -> tailDefault(amount,x);
         };
-
-    };
+    }
 
     private static<X> TidyIterable<X> tailList(int index,List<X> x) {
         int thatIndex = x.size()-index;
-        thatIndex = thatIndex >0 ? thatIndex : 0;
+        thatIndex = Math.max(thatIndex, 0);
         return map(i -> x.get(i.intValue()),range(thatIndex,x.size()));
     }
 
     private static<X> TidyIterable<X> tailCollection(int index,Collection<X> x) {
         int thatIndex = x.size()-index;
-        thatIndex = thatIndex >0 ? thatIndex : 0;
+        thatIndex = Math.max(thatIndex, 0);
         return skip(thatIndex,x);
     }
 
@@ -462,6 +461,10 @@ public class Iterables {
 
     public static <X> Iterable<Pair<X,X>> pairwise(Iterable<X> values) {
         return new PairwiseIterable<>(values);
+    }
+
+    public static <X,Y> Iterable<Y> window(int length, Collector<X,?,Y> collector, Iterable<X> values) {
+        return new WindowIterable<>(length, collector, values);
     }
 
     @FunctionalInterface

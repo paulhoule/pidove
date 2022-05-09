@@ -1,7 +1,7 @@
 package com.ontology2.pidove.seq;
 
 import com.ontology2.pidove.util.Pair;
-import com.ontology2.pidove.util.Triad;
+import com.ontology2.pidove.util.Trio;
 import org.junit.jupiter.api.Test;
 
 import javax.sound.sampled.AudioFormat;
@@ -16,7 +16,7 @@ public class TestCurry {
         Function<String, Function<Integer, Pair<String,Integer>>>
                 coupler = a -> b -> new Pair<>(a,b);
 
-        assertEquals(new Pair("Static", 26), coupler.apply("Static").apply(26));
+        assertEquals(new Pair<>("Static", 26), coupler.apply("Static").apply(26));
     }
 
     @Test
@@ -37,10 +37,10 @@ public class TestCurry {
     @Test
     public void curry3() {
         var tripler =
-                curry((Integer a,Integer b, Integer c) -> new Triad<>(a,b,c));
+                curry((Integer a,Integer b, Integer c) -> new Trio<>(a,b,c));
         var that = tripler.apply(4).apply(24);
-        assertEquals(Triad.of(4,24,1972), that.apply(1972));
-        assertEquals(Triad.of(4,24,1973), that.apply(1973));
+        assertEquals(Trio.of(4,24,1972), that.apply(1972));
+        assertEquals(Trio.of(4,24,1973), that.apply(1973));
     }
 
     @Test
@@ -52,8 +52,8 @@ public class TestCurry {
     @Test
     public void haveUncurry3WillTravel() {
         var threesCompany =
-                uncurry3((Object a) -> (Object b) -> (Object c) -> new Triad<>(a,b,c));
-        assertEquals(new Triad<>("Blinking", 55, AudioFormat.Encoding.PCM_SIGNED),
+                uncurry3((Object a) -> (Object b) -> (Object c) -> new Trio<>(a,b,c));
+        assertEquals(new Trio<>("Blinking", 55, AudioFormat.Encoding.PCM_SIGNED),
                 threesCompany.apply("Blinking",55, AudioFormat.Encoding.PCM_SIGNED));
     }
 }

@@ -1,10 +1,10 @@
 package com.ontology2.pidove.seq;
 
-import com.ontology2.pidove.util.Triad;
+import com.ontology2.pidove.util.Trio;
 
 import java.util.Iterator;
 
-public class Zip3Iterable<X,Y,Z> implements Iterable<Triad<X, Y, Z>> {
+public class Zip3Iterable<X,Y,Z> implements Iterable<Trio<X, Y, Z>> {
     private final Iterable<X> one;
     private final Iterable<Y> two;
     private final Iterable<Z> three;
@@ -16,11 +16,11 @@ public class Zip3Iterable<X,Y,Z> implements Iterable<Triad<X, Y, Z>> {
     }
 
     @Override
-    public Iterator<Triad<X, Y, Z>> iterator() {
+    public Iterator<Trio<X, Y, Z>> iterator() {
         return new Zip3Iterator();
     }
 
-    private class Zip3Iterator implements Iterator<Triad<X, Y, Z>>,AutoCloseable {
+    private class Zip3Iterator implements Iterator<Trio<X, Y, Z>>,AutoCloseable {
 
         final private Iterator<X> a = one.iterator();
         final private Iterator<Y> b = two.iterator();
@@ -32,8 +32,8 @@ public class Zip3Iterable<X,Y,Z> implements Iterable<Triad<X, Y, Z>> {
         }
 
         @Override
-        public Triad<X, Y, Z> next() {
-            return new Triad<>(a.next(), b.next(), c.next());
+        public Trio<X, Y, Z> next() {
+            return new Trio<>(a.next(), b.next(), c.next());
         }
 
         @Override
