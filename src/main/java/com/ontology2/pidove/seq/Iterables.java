@@ -467,6 +467,13 @@ public class Iterables {
         return new WindowIterable<>(length, collector, values);
     }
 
+    public static <X,Y> Iterable<Pair<X,Y>> product(Iterable<X> left,Iterable<Y> right) {
+        return new ProductIterable2<>(left,right);
+    }
+
+    public static <X,Y,Z> Iterable<Trio<X,Y,Z>> product(Iterable<X> left,Iterable<Y> middle,Iterable<Z> right) {
+        return new ProductIterable3<>(left,middle,right);
+    }
     @FunctionalInterface
     interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
 
