@@ -5,7 +5,10 @@ import java.util.function.Function;
 
 /**
  * Curry is both awkward and cute in Java.  With code generation it would be reasonable to
- * extend curry to (say) arity 20.
+ * extend curry to (say) arity 20 with code generatioin and the addition of appropriate
+ * functionN types.
+ *
+ * Like uncurry, people might find easier to accomplish what they want by writing a lambda function.
  */
 public class Curry {
     public static <A,B,C> Function<A, Function<B,C>> curry(

@@ -1,12 +1,12 @@
 package com.ontology2.pidove.util;
 
-import com.ontology2.pidove.seq.Iterables;
+import com.ontology2.pidove.iterables.Iterables;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.function.*;
 
-import static com.ontology2.pidove.seq.Iterables.over;
+import static com.ontology2.pidove.iterables.Iterables.over;
 import static com.ontology2.pidove.util.Composer.compose;
 import static com.ontology2.pidove.util.Composer.composePredicate;
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,9 +49,9 @@ public class TestComposer {
     public void toAConsumer() {
         var j = new Janus<>(1000);
         Function<Integer, Integer> f = x-> -x;
-        compose(f, j.consumer()).accept(75);
+        Composer.composeVoid(f, j.consumer()).accept(75);
         assertEquals(-75, j.supplier().get());
-        Consumer<Integer> c = compose(x -> -x, j.consumer());
+        Consumer<Integer> c = Composer.composeVoid(x -> -x, j.consumer());
         c.accept(0);
         assertEquals(0, j.supplier().get());
         // note the following doesn't solve

@@ -1,0 +1,25 @@
+package com.ontology2.pidove.iterables;
+
+import java.util.function.Consumer;
+
+/**
+ *
+ * A CleanIterable promises that the Iterator returned by the iterator() method
+ * also implements AutoClosable if that Iterator holds resources (just as open
+ * files) that need to be closed
+ *
+ * @param <X>
+ */
+public interface TidyIterable<X> extends Iterable<X> {
+    /**
+     * Overrides the default implementation such that the Iterator used internally
+     * will be closed at the end of this method if that Iterator implements
+     * AutoClosable
+     *
+     * @param action The action to be performed for each element
+     */
+    @Override
+    default void forEach(Consumer<? super X> action) {
+        Iterables.forEach(action, this);
+    }
+}

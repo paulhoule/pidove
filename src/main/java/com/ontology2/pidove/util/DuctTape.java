@@ -44,16 +44,18 @@ public class DuctTape {
     }
 
     /**
-     * Wraps a method that could throw an Exception such that non-RuntimeExceptions are wrapped
-     * in RuntimeExceptions
+     * Executes a method that could throw an Exception but wraps any non-RuntimeExceptions
+     * in RuntimeExceptions.  If the exception is an InterruptedException it also interrupts the
+     * thread.
      *
-     * @param that a method that might throw an exception
+     * @param that a void method that might throw an exception
      */
     public static void uncheck(ExceptionalRunnable that) {
         try {
             that.run();
         } catch(InterruptedException e) {
             Thread.currentThread().interrupt();
+            throw new RuntimeException(e);
         } catch(Exception e) {
             if(e instanceof RuntimeException rt) {
                 throw rt;
@@ -63,12 +65,19 @@ public class DuctTape {
         }
     }
 
+    /**
+     * Executes a method that could throw an Exception but wraps any non-RuntimeExceptions
+     * in RuntimeExceptions.  If the exception is an InterruptedException it also interrupts the
+     * thread.
+     *
+     * @param that a non-void method that might throw an exception
+     */
     public static <X> X uncheck(ExceptionalSupplier<X> that) {
         try {
             return that.get();
         } catch(InterruptedException e) {
             Thread.currentThread().interrupt();
-            return null;
+            throw new RuntimeException(e);
         } catch(Exception e) {
             if(e instanceof RuntimeException rt) {
                 throw rt;
@@ -78,6 +87,16 @@ public class DuctTape {
         }
     }
 
+    /**
+     * Converts a method that could throw a non-runtime Exception into one that doesn't,
+     * using the method in the uncheck method.
+     *
+     * (It would probably be worthwhile to create methods with signatures such as Function since these would be
+     * useful to pass into other methods in pidove)
+     *
+     * @param that a Runnable
+     * @return nothing
+     */
     public static Runnable unchecked(ExceptionalRunnable that) {
         return () -> uncheck(that);
     }
@@ -85,6 +104,20 @@ public class DuctTape {
     public static <X> Supplier<X> unchecked(ExceptionalSupplier<X> that) {
         return () -> uncheck(that);
     }
+
+    /**
+     * The following method tricks out the type inference system so you can write
+     *
+     * var fma = lambda((Integer a, Integer b, Integer c) -> a*b+c);
+     *
+     * that is,  use var to save the a lambda function while defining the input types of
+     * the lambda function explictly in the definition
+     *
+     * @param x a function
+     * @return a Function
+     * @param <A> input type
+     * @param <B> output type
+     */
 
     public static <A,B> Function<A,B> lambda(Function<A,B> x) { return x; }
 
@@ -98,13 +131,4 @@ public class DuctTape {
 
     public static <A,B,C> Consumer3<A,B,C> lambda(Consumer3<A,B,C> x) { return x; }
 
-    @FunctionalInterface
-    public interface ExceptionalRunnable {
-        void run() throws Exception;
-    }
-
-    @FunctionalInterface
-    public interface ExceptionalSupplier<X> {
-        X get() throws Exception;
-    }
 }

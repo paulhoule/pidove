@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.NoSuchElementException;
 
 import static com.ontology2.pidove.util.DuctTape.uncheck;
-import static com.ontology2.pidove.util.DuctTape.unchecked;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestExceptionWrapping {
@@ -19,7 +18,7 @@ public class TestExceptionWrapping {
 
     @Test
     public void doesTheModernWorldHaveYouDown() {
-        Runnable that = unchecked(() -> {
+        Runnable that = DuctTape.unchecked(() -> {
             if(True) throw new FontFormatException("andrew");
         });
         assertThrows(RuntimeException.class, that::run);
@@ -28,16 +27,16 @@ public class TestExceptionWrapping {
 
     @Test
     public void scalingYourWalls() {
-        Runnable that = unchecked(() -> {
+        Runnable that = DuctTape.unchecked(() -> {
             if(True) throw new InterruptedException();
         });
-        that.run();
+        assertThrows(RuntimeException.class, that::run);
         assertTrue(Thread.currentThread().isInterrupted());
     }
 
     @Test
     public void treasuresOnlyWeighYouDown() {
-        Runnable that = unchecked(() -> {});
+        Runnable that = DuctTape.unchecked(() -> {});
         that.run();
         assertFalse(Thread.currentThread().isInterrupted());
     }

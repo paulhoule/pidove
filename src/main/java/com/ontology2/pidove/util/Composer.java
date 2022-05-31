@@ -3,10 +3,25 @@ package com.ontology2.pidove.util;
 import java.util.function.*;
 
 /**
+ * Many programming languages have a function for composing functions;  here is an attempt to make the
+ * most of the concept in Java.
+ *
+ * One limitation here is that to take advantage of the strong typing in Java we have to generate a
+ * large number of functions with different signatures.
+ *
  * The ideal grammar of compose is that the first argument is a Supplier, Function, or BiFunction.  In
  * the middle there could be an arbitrary number of functions,  at the end there either a Function,
  * Consumer, or Predicate.  That gives 9 basic forms,  and these could be extended to some length N
- * of intervening functions.
+ * of intervening functions.  A challenge with this idea is that a lambda function like
+ *
+ * x -> -x
+ *
+ * can be alternately be treated as a Consumer or a Function and one like
+ *
+ * x -> x == 15
+ *
+ * can be treated as as either a Function or a Predicate so for this to work we have to change the name
+ * of the function.
  *
  * To support,  say N=10 this is a job for code generation.
  *
@@ -29,14 +44,7 @@ public class Composer {
         return () -> f2.apply(f1.get());
     }
 
-    /**
-     *
-     * Note that the generics solver can't figure out
-     *
-     * compose(x->-x,intConsumer).get(10)
-     *
-     */
-    public static <A,B> Consumer<A> compose(Function<A,B> f1, Consumer<B> f2) {
+    public static <A,B> Consumer<A> composeVoid(Function<A,B> f1, Consumer<B> f2) {
         return (x) -> f2.accept(f1.apply(x));
     }
 
