@@ -409,8 +409,8 @@ public class Iterables {
      * Unique to pidove
      *
      * Given a Supplier of an Input Stream,  opens the stream and iterates over lines in the file.
-     * Note that if we used a Supplier&ltInputStream&gt; here we couldn't also make an over
-     * method that takes a Supplier&ltBufferedReader&gt; thanks to type erasure.  Unerasing the
+     * Note that if we used a Supplier&lt;InputStream&gt; here we couldn't also make an over
+     * method that takes a Supplier&lt;BufferedReader&gt; thanks to type erasure.  Unerasing the
      * type by subclassing Supplier to make it complete makes it easy to supply a lambda here.
      *
      * @param source a supplier of an input stream
@@ -424,8 +424,8 @@ public class Iterables {
      * Unique to pidove
      *
      * Given a Supplier of an Input Stream,  opens the stream and iterates over lines in the file.
-     * Note that if we used a Supplier&ltBufferedReader&gt; here we couldn't also make an over
-     * method that takes a Supplier&ltInputStream&gt; thanks to type erasure.  Unerasing the
+     * Note that if we used a Supplier&lt;BufferedReader&gt; here we couldn't also make an over
+     * method that takes a Supplier&lt;InputStream&gt; thanks to type erasure.  Unerasing the
      * type by subclassing Supplier to make it complete makes it easy to supply a lambda here.
      *
      * @param source a supplier of an input stream

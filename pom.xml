@@ -43,7 +43,7 @@
             <configuration>
                 <release>18</release>
                 <source>18</source>
-                <additionalOptions>--enable-preview</additionalOptions>
+                <additionalOptions>--enable-preview -Xdoclint:none</additionalOptions>
             </configuration>
         </plugin>
     </plugins>

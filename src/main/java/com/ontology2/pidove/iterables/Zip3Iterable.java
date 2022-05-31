@@ -4,7 +4,7 @@ import com.ontology2.pidove.util.Trio;
 
 import java.util.Iterator;
 
-public class Zip3Iterable<X,Y,Z> implements Iterable<Trio<X, Y, Z>> {
+class Zip3Iterable<X,Y,Z> implements Iterable<Trio<X, Y, Z>> {
     private final Iterable<X> one;
     private final Iterable<Y> two;
     private final Iterable<Z> three;

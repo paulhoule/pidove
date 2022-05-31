@@ -8,7 +8,7 @@ import java.util.stream.Collector;
 
 import static com.ontology2.pidove.iterables.Iterables.collect;
 
-public record WindowIterable<X,Y>(int length, Collector<X,?,Y> collector, Iterable<X> values) implements TidyIterable<Y> {
+record WindowIterable<X,Y>(int length, Collector<X,?,Y> collector, Iterable<X> values) implements TidyIterable<Y> {
     @Override
     public Iterator<Y> iterator() {
         return new WindowIterator();
