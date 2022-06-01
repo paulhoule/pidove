@@ -3,7 +3,7 @@
     <groupId>com.ontology2</groupId>
     <artifactId>pidove</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <name>pidove</name>
     <url>http://maven.apache.org</url>
     <dependencies>
@@ -18,7 +18,7 @@
         <connection>scm:git:git@github.com:paulhoule/pidove.git</connection>
         <developerConnection>scm:git:git@github.com:paulhoule/pidove.git</developerConnection>
         <url>https://github.com/paulhoule/pidove</url>
-        <tag>pidove-1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
     <build>
         <plugins>
