@@ -5,7 +5,26 @@
     <packaging>jar</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <name>pidove</name>
-    <url>http://maven.apache.org</url>
+    <url>http://github.com/paulhoule/pidove</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/mit-license</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>paulhoule</id>
+            <name>Paul A. Houle</name>
+            <email>paul.houle@ontology2.com</email>
+            <url>http://ontology2.com/</url>
+            <organization>Ontology2</organization>
+            <organizationUrl>http://ontology2.com/</organizationUrl>
+            <timezone>America/New York</timezone>
+        </developer>
+    </developers>
+    <description>For those of you who like static imports:  an alternative to the Java Streams API defines operators on Iterables and higher-ordered functions</description>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
