@@ -3,7 +3,7 @@
     <groupId>com.ontology2</groupId>
     <artifactId>pidove</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>pidove</name>
     <url>http://github.com/paulhoule/pidove</url>
     <licenses>
@@ -156,10 +156,7 @@
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <build>
                 <plugins>
