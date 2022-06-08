@@ -5,9 +5,7 @@ import com.ontology2.pidove.util.Pair;
 import com.ontology2.pidove.util.Trio;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -179,6 +177,8 @@ public class Iterables {
 
     /**
      *
+     * skipped
+     *
      * @param values an Iterable of Iterables
      * @return the values returned by all the inner iterables
      * @param <X> the type of the input Iterable
@@ -203,6 +203,8 @@ public class Iterables {
 
     /**
      *
+     * skipped
+     *
      * Similar to the generate method in the Java Streams API but sane.  That is,
      * instead of taking a Supplier are an argument it takes a Supplier of a Supplier,  so
      * that like a normal Iterable it can start the iteration fresh each time
@@ -216,7 +218,10 @@ public class Iterables {
     }
 
     /**
-     * Imitates the iterate method of the Java Strsams API.
+     *
+     * skipped
+     *
+     * Imitates the iterate method of the Java Streams API.
      *
      * @param seed the first value
      * @param f a function that is applied repeatedly to the seed then it's own output to getnerate the values
@@ -266,6 +271,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Similar to the max method of the Java Streams API but uses the natural ordering
      * for convenience.
      *
@@ -290,6 +297,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Similar to the min method of the Java Streams API but uses the natural ordering
      * for convenience.
      *
@@ -304,6 +313,8 @@ public class Iterables {
 
 
     /**
+     * skipped
+     *
      * Similar to the noneMatch function of the Java Streams API but with a pythonic
      * signature.  Stops iterating and Returns early if any value is true.
      *
@@ -324,6 +335,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Imitates the of method of the Java Streams API
      *
      * @param x a value of type X
@@ -335,6 +348,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Imitates the of method of the Java Streams API
      *
      * @param x an arbitrary number of values of type X
@@ -347,6 +362,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Imitates the ofNullable method of the java streams API
      *
      * @param x a value
@@ -436,6 +453,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Unique to pidove
      *
      * @param regex regular expression
@@ -447,6 +466,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Unique to pidove
      *
      * @param regex regular expression
@@ -471,6 +492,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * This is like the range function from the Python standard library.
      *
      * range(4) produces the values 0,1,2,3
@@ -483,6 +506,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * This is like the range function from the Python standard library
      *
      * range(10,12) produces the values 10,11
@@ -496,6 +521,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * This is like the range function from the Python standard library
      *
      * @param start the beginning of the range
@@ -547,6 +574,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Convenience method to get sum of integer Iterable
      *
      * @param values Iterable with integer items
@@ -558,6 +587,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Convenience method to get sum of Long Iterable
      *
      * @param values Iterable with long items
@@ -569,6 +600,8 @@ public class Iterables {
     }
 
     /**
+     * skipped
+     *
      * Convenience method to get sum of Double Iterable
      *
      * @param values Iterable with double items
@@ -649,6 +682,8 @@ public class Iterables {
     }
 
     /**
+     *
+     * skipped
      *
      * @param pairs an iterable of key value pairs
      * @return a map with those key value pairs
@@ -1044,10 +1079,5 @@ public class Iterables {
     public static <X,Y,Z> Iterable<Trio<X,Y,Z>> product(Iterable<X> left,Iterable<Y> middle,Iterable<Z> right) {
         return new ProductIterable3<>(left,middle,right);
     }
-    @FunctionalInterface
-    interface SupplierOfBufferedReader extends Supplier<BufferedReader> {}
-
-    @FunctionalInterface
-    interface SupplierOfInputStream extends Supplier<InputStream> {}
 
 }

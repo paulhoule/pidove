@@ -2,6 +2,9 @@ package com.ontology2.pidove.iterables;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Fixtures.closeSpy;
 import static com.ontology2.pidove.iterables.Iterables.count;
 import static java.util.List.of;
@@ -21,5 +24,11 @@ public class TestCount {
         var instrumented = closeSpy(of());
         assertEquals(0, count(instrumented));
         assertEquals(1, instrumented.getCloseCount());
+    }
+
+    @Test
+    public void moneyMoneyMoneyMoney() {
+        assertEquals(0, $().count());
+        assertEquals(3, $(List.of(8, 9, 10)).count());
     }
 }

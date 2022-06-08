@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Fixtures.closeSpy;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,13 @@ public class TestFirst {
         assertEquals(Optional.of("boom"), first(List.of("boom")));
         assertEquals(Optional.of("freedom"), first(List.of("freedom","of","movement")));
     }
+
+    @Test
+    public void getsAnOptional$() {
+        assertEquals(Optional.of("boom"), $(List.of("boom")).first());
+        assertEquals(Optional.of("freedom"), $(List.of("freedom","of","movement")).first());
+    }
+
 
     @Test
     public void firstOrFails() {
@@ -42,5 +50,10 @@ public class TestFirst {
         var instrumented = closeSpy(over("change is happening"));
         assertEquals('c', first(instrumented).orElseThrow());
         assertEquals(1, instrumented.getCloseCount());
+    }
+
+    @Test
+    public void overChars() {
+        assertEquals('t',$("terrific").first().orElseThrow());
     }
 }

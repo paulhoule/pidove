@@ -3,7 +3,7 @@ package com.ontology2.pidove.iterables;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class ArrayIterable<X> implements Iterable<X> {
+class ArrayIterable<X> implements TidyIterable<X> {
 
     private final X[] x;
 

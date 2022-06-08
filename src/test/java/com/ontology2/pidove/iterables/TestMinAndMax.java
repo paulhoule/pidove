@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Iterables.max;
 import static com.ontology2.pidove.iterables.Iterables.min;
 import static java.util.Comparator.*;
@@ -35,5 +36,15 @@ public class TestMinAndMax {
         assertEquals(Optional.empty(), max(List.<Integer>of(), naturalOrder()));
         assertEquals(Optional.of("world"), max(List.of("walt","disney","world"), naturalOrder()));
         assertEquals(Optional.of("disney"), max(List.of("walt","disney","world"), reverseOrder()));
+    }
+
+    @Test
+    public void testMax$$$() {
+        assertEquals(Optional.of(15), $(List.of(5,15,6,7)).max(naturalOrder()));
+    }
+
+    @Test
+    public void testMin$$$() {
+        assertEquals(Optional.of(5), $(List.of(5,15,6,7)).min(naturalOrder()));
     }
 }

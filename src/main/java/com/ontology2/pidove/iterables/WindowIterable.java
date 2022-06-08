@@ -41,7 +41,7 @@ record WindowIterable<X,Y>(int length, Collector<X,?,Y> collector, Iterable<X> v
             if(window == null)
                 throw new NoSuchElementException();
             try {
-                return collect(collector(), window);
+                return Iterables.collect(collector(), window);
             } finally {
                 if (that.hasNext())  {
                     window.removeFirst();

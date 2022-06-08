@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -24,6 +25,13 @@ public class TestLimit {
     }
 
     @Test
+    public void testLimit$() {
+        assertFalse(limit(100, List.of()).iterator().hasNext());
+        var aList=List.of(1,2,3,4,5);
+        assertEquals(List.of(1,2,3), $(aList).limit(3).toList());
+    }
+
+    @Test
     public void testSkip() {
         assertFalse(skip(100, List.of()).iterator().hasNext());
         var aList=List.of(1,2,3,4,5);
@@ -35,4 +43,13 @@ public class TestLimit {
         assertEquals(List.of(5), asList(skip(4, aList)));
         assertEquals(List.of(), asList(skip(5, aList)));
     }
+
+    @Test
+    public void testSkip$() {
+        var aList=List.of(1,2,3,4,5);
+        assertEquals(List.of(), asList(skip(100, aList)));
+        assertEquals(List.of(3,4,5), $(aList).skip(2));
+
+    }
+
 }

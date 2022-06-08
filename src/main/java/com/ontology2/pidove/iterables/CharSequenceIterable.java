@@ -3,7 +3,7 @@ package com.ontology2.pidove.iterables;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class CharSequenceIterable implements Iterable<Character> {
+class CharSequenceIterable implements TidyIterable<Character> {
 
     private final CharSequence s;
 

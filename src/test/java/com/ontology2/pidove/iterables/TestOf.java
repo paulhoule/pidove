@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -33,6 +34,12 @@ public class TestOf {
     }
 
     @Test
+    public void iterateOverArrays$() {
+        assertFalse($(new String[] {}).first().isPresent());
+        assertEquals(List.of(5,0,5), $(new Integer[] {5,0,5}));
+    }
+
+    @Test
     public void iterateOverMap() {
         var that = new HashMap<Integer, String>();
         that.put(3, "three");
@@ -41,6 +48,17 @@ public class TestOf {
         var hits = asList(over(that));
         assertEquals(3, hits.size());
         assertEquals(that, asMap(hits));
+    }
+
+    @Test
+    public void iterateOverMap$() {
+        var that = new HashMap<Integer, String>();
+        that.put(3, "three");
+        that.put(4, "four");
+        that.put(5, "five");
+        var hits = $(that).toList();
+        assertEquals(3, hits.size());
+        assertEquals(that, asMap($(hits)));
     }
 
     @Test

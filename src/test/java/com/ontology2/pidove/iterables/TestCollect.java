@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collector;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.MoreCollectors.countDistinct;
 import static com.ontology2.pidove.iterables.Iterables.collect;
 import static com.ontology2.pidove.iterables.Iterables.over;
@@ -78,6 +79,15 @@ public class TestCollect {
     public void groupAndCount() {
         var that = List.of(11,772,22,81,99,12,54,112,78,24,55,104,55,888,55);
         var grouped = collect(groupingBy(i->i % 3, counting()), that);
+        assertEquals(7, grouped.get(0));
+        assertEquals(6, grouped.get(1));
+        assertEquals(2, grouped.get(2));
+    }
+
+    @Test
+    public void itsWorthADollar() {
+        var that = List.of(11,772,22,81,99,12,54,112,78,24,55,104,55,888,55);
+        var grouped = $(that).collect(groupingBy(i->i % 3, counting()));
         assertEquals(7, grouped.get(0));
         assertEquals(6, grouped.get(1));
         assertEquals(2, grouped.get(2));

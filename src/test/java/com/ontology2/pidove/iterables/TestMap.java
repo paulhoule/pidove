@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static com.ontology2.pidove.iterables.MoreCollectors.flatMapping;
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,6 +33,13 @@ public class TestMap {
         var list = List.of(1,2,3,4,5,6,7);
         var result = asList(map(x->2*x, list));
         assertEquals(List.of(2,4,6,8,10,12,14), result);
+    }
+
+    @Test
+    public void testMapToo() {
+        var list = List.of(1,2,3,4,5,6,7);
+        var result = $(list).map(x->2*x+1).toList();
+        assertEquals(List.of(3,5,7,9,11,13,15), result);
     }
 
     @Test
@@ -77,7 +85,7 @@ public class TestMap {
         var wrappedPredicate = filterWrapper(startA);
         var input = List.of("acid","base","Awkward","apple","blue","Caca");
         var output = List.of("acid", "Awkward", "apple");
-        assertEquals(output, asList(flatMap(wrappedPredicate, input)));
+        assertEquals(output, asList($(input).flatMap(wrappedPredicate)));
     }
 
     @Test
@@ -86,6 +94,7 @@ public class TestMap {
         var output = flatten(input);
         assertEquals(List.of(1,2,'a','v'), asList(output));
     }
+
 
     @Test
     public void mapIterableIsMarkedAutoCloseable() {
