@@ -3,7 +3,7 @@ package com.ontology2.pidove.iterables;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class RangeIterable implements Iterable<Long> {
+class RangeIterable implements TidyIterable<Long> {
     private final long start;
     private final long skip;
     private final long finish;

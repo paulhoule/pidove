@@ -95,6 +95,10 @@ public interface TidyIterable<X> extends Iterable<X> {
         return this.collect(Collectors.reducing(identity, accumulator));
     }
 
+    default TidyIterable<X> takeWhile(Predicate<? super X> predicate) {
+        return new TakeWhileIterable<>(this, predicate);
+    }
+
     default TidyIterable<X> skip(final int amount) {
         return new SkipIterable<>(this, amount);
     }

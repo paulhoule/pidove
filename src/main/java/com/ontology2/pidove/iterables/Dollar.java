@@ -18,6 +18,11 @@ public class Dollar {
         return EmptyIterable.that();
     }
 
+    @SuppressWarnings("unchecked")
+    public static <X> TidyIterable<X> $(Class<X> that) {
+        return (TidyIterable<X>) EmptyIterable.that();
+    }
+
     public static <X> TidyIterable<X> $(Iterable<X> x) {
         if (x instanceof TidyIterable<X> tidy) {
             return tidy;
@@ -48,6 +53,21 @@ public class Dollar {
 
     public static TidyIterable<String> $(SupplierOfBufferedReader source) {
         return new LinesIterable(source);
+    }
+
+    public static TidyIterable<Long> $(long start) {
+        return $(0,start);
+    }
+    public static TidyIterable<Long> $(long start, long stop) {
+        return $(start, stop, 1);
+    }
+    public static TidyIterable<Long> $(long start, long stop, long skip) {
+        return new RangeIterable(start, skip, stop);
+    }
+
+    @SafeVarargs
+    public static <X> TidyIterable<X> $$(X... xs) {
+        return new ArrayIterable<>(xs);
     }
 
 

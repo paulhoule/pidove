@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.ontology2.pidove.util.DuctTape.unchecked;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.isNull;
 import static java.util.function.Function.*;
 
@@ -266,7 +267,7 @@ public class Iterables {
      * @return the maximum value determined by that comparison function
      * @param <X> the type of values in the input iterable
      */
-    public static <X> Optional<X> max(final Iterable<X> values, Comparator<X> comparator) {
+    public static <X> Optional<? super X> max(final Iterable<X> values, Comparator<X> comparator) {
         return collect(Collectors.maxBy(comparator), values);
     }
 
@@ -280,8 +281,8 @@ public class Iterables {
      * @return the maximum value determined by the natural order over X
      * @param <X> the type of values in the input iterable,  bounded above by Comparable
      */
-    public static <X extends Comparable<X>> Optional<X> max(final Iterable<X> values) {
-        return max(values, Comparator.naturalOrder());
+    public static <X extends Comparable<? super X>> Optional<X> max(final Iterable<X> values) {
+        return collect(Collectors.maxBy(naturalOrder()), values);
     }
 
     /**
@@ -292,7 +293,7 @@ public class Iterables {
      * @return the minimum value determined by that comparison function
      * @param <X> the type of values in the input iterable
      */
-    public static <X> Optional<X> min(Comparator<X> comparator, final Iterable<X> values) {
+    public static <X> Optional<X> min(Comparator<? super X> comparator, final Iterable<X> values) {
         return collect(Collectors.minBy(comparator), values);
     }
 
@@ -307,8 +308,8 @@ public class Iterables {
      * @param <X> the type of values in the input iterable,  bounded above by Comparable
      */
 
-    public static <X extends Comparable<X>> Optional<X> min(final Iterable<X> values) {
-        return min(Comparator.naturalOrder(), values);
+    public static <X extends Comparable<? super X>> Optional<X> min(final Iterable<X> values) {
+        return collect(Collectors.minBy(naturalOrder()), values);
     }
 
 

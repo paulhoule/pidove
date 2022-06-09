@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.ontology2.pidove.iterables.Dollar.$;
+import static com.ontology2.pidove.iterables.Fixtures.equalItemsAssert;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -36,7 +37,7 @@ public class TestOf {
     @Test
     public void iterateOverArrays$() {
         assertFalse($(new String[] {}).first().isPresent());
-        assertEquals(List.of(5,0,5), $(new Integer[] {5,0,5}));
+        equalItemsAssert($(new Integer[] {5,0,5}),5,0,5);
     }
 
     @Test

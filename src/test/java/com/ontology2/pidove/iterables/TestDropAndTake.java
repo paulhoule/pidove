@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import static com.ontology2.pidove.iterables.Dollar.$;
+import static com.ontology2.pidove.iterables.Dollar.$$;
+import static com.ontology2.pidove.iterables.Fixtures.equalItemsAssert;
 import static com.ontology2.pidove.iterables.Fixtures.closeSpy;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -56,10 +58,23 @@ public class TestDropAndTake {
     }
 
     @Test
+    public void takeEvenOrOdd$() {
+        equalItemsAssert($(Integer.class).takeWhile(isEven));
+        equalItemsAssert($$(1).takeWhile(isEven));
+        equalItemsAssert($$(1).takeWhile(isOdd),1);
+        equalItemsAssert($$(1,2).takeWhile(isOdd),1);
+        equalItemsAssert($$(1,3).takeWhile(isOdd),1,3);
+        equalItemsAssert($$(1,3,5).takeWhile(isOdd), 1,3,5);
+        equalItemsAssert($$(1, 3, 5, 8, 1).takeWhile(isOdd),1,3,5);
+    }
+
+    @Test
     public void closesAfterTake() {
         var instrumented = closeSpy(List.of(5,5,5,5,5));
         asList(takeWhile(isEven, instrumented));
         asList(takeWhile(isOdd, instrumented));
         assertEquals(2, instrumented.getCloseCount());
     }
+
+
 }
