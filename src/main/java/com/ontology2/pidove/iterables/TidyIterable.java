@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -54,6 +55,8 @@ public interface TidyIterable<X> extends Iterable<X> {
     default List<X> toList() {
         return Iterables.asList(this);
     }
+
+    default Set<X> toSet() { return Iterables.asSet(this);}
 
 
     default Optional<X> first() {

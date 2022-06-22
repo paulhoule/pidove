@@ -517,7 +517,7 @@ public class Iterables {
      * @param stop iteration ends at this value
      * @return an iterable that counts from start to stop
      */
-    public static Iterable<Long> range(long start, long stop) {
+    public static TidyIterable<Long> range(long start, long stop) {
         return range(start, stop, 1);
     }
 
@@ -531,7 +531,7 @@ public class Iterables {
      * @param skip how much we add for each iteration
      * @return an iterable that counts from start to stop with skip as stride
      */
-    public static Iterable<Long> range(long start, long stop, long skip) {
+    public static TidyIterable<Long> range(long start, long stop, long skip) {
         return new RangeIterable(start, skip, stop);
     }
 

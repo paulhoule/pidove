@@ -155,9 +155,9 @@
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
-            <activation>
+            <!--<activation>
                 <activeByDefault>true</activeByDefault>
-            </activation>
+            </activation>-->
             <build>
                 <plugins>
                     <plugin>

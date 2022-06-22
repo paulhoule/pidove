@@ -3,6 +3,7 @@ package com.ontology2.pidove.iterables;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Fixtures.equalItemsAssert;
@@ -54,6 +55,11 @@ public class TestRange {
     @Test
     public void nothing() {
         assertEquals(List.of(), asList(range(1, 0)));
+    }
+
+    @Test
+    public void testSet123() {
+        assertEquals(Set.of(1L, 2L, 3L), range(1,4).toSet());
     }
 
 
