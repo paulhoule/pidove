@@ -116,4 +116,8 @@ public interface TidyIterable<X> extends Iterable<X> {
         return new EnumerateIterable<>(this,start);
     }
 
+    default TidyIterable<X> reversed() {
+        return new ReversedIterable(this);
+    }
+
 }

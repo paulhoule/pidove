@@ -2,6 +2,7 @@ package com.ontology2.pidove.iterables;
 
 import com.ontology2.pidove.TidyIterableWrapper;
 import com.ontology2.pidove.util.Pair;
+import com.ontology2.pidove.util.Trio;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -64,6 +65,14 @@ public class Dollar {
     public static TidyIterable<Long> $(long start, long stop, long skip) {
         return new RangeIterable(start, skip, stop);
     }
+
+    public static <X,Y> TidyIterable<Pair<X,Y>> $(Iterable<X> x, Iterable<Y> y) {
+        return new Zip2Iterable<>(x,y);
+    }
+
+    public static <X,Y,Z> TidyIterable<Trio<X,Y,Z>> $(Iterable<X> x, Iterable<Y> y, Iterable<Z> z) {
+        return new Zip3Iterable<>(x,y,z);
+    };
 
     @SafeVarargs
     public static <X> TidyIterable<X> $$(X... xs) {
