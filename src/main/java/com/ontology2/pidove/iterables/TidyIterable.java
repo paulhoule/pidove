@@ -1,5 +1,7 @@
 package com.ontology2.pidove.iterables;
 
+import com.ontology2.pidove.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -104,6 +106,14 @@ public interface TidyIterable<X> extends Iterable<X> {
 
     default TidyIterable<X> skip(final int amount) {
         return new SkipIterable<>(this, amount);
+    }
+
+    default TidyIterable<Pair<Long,X>> enumerate() {
+        return new EnumerateIterable<>(this,0L);
+    }
+
+    default TidyIterable<Pair<Long,X>> enumerate(long start) {
+        return new EnumerateIterable<>(this,start);
     }
 
 }
