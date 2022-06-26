@@ -17,6 +17,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import static com.ontology2.pidove.iterables.PairIterable.wrap;
 import static com.ontology2.pidove.util.DuctTape.unchecked;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.function.Function.identity;
@@ -80,6 +81,14 @@ public interface TidyIterable<X> extends Iterable<X> {
         return new MapIterable<>(this, fn);
     }
 
+    default <Left,Right> PairIterable<Left,Right> mapPair(Function<X, Pair<Left,Right>> fn) {
+        return PairIterable.wrap(this.map(fn));
+    }
+
+    default <Left, Right> PairIterable<Left,Right> mapPair(Function <X,Left> leftFn, Function<X,Right> rightFn) {
+        return mapPair(x->new Pair<>(leftFn.apply(x),rightFn.apply(x)));
+    }
+
     default Optional<X> max(Comparator<X> comparator) {
         return this.collect(Collectors.maxBy(comparator));
     }
@@ -108,16 +117,20 @@ public interface TidyIterable<X> extends Iterable<X> {
         return new SkipIterable<>(this, amount);
     }
 
-    default TidyIterable<Pair<Long,X>> enumerate() {
+    default PairIterable<Long,X> enumerate() {
         return new EnumerateIterable<>(this,0L);
     }
 
-    default TidyIterable<Pair<Long,X>> enumerate(long start) {
+    default PairIterable<Long,X> enumerate(long start) {
         return new EnumerateIterable<>(this,start);
     }
 
     default TidyIterable<X> reversed() {
-        return new ReversedIterable(this);
+        return new ReversedIterable<>(this);
+    }
+
+    default TidyIterable<X> accumulate(BinaryOperator<X> func) {
+        return new AccumulateIterable<>(func, this);
     }
 
 }

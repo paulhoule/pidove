@@ -3,7 +3,7 @@ package com.ontology2.pidove.iterables;
 import java.util.Iterator;
 import java.util.function.BinaryOperator;
 
-record AccumulateIterable<X>(BinaryOperator<X> func, Iterable<X> values) implements Iterable<X> {
+record AccumulateIterable<X>(BinaryOperator<X> func, Iterable<X> values) implements TidyIterable<X> {
 
     @Override
     public Iterator<X> iterator() {

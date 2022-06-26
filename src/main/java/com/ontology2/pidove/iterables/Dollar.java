@@ -40,8 +40,8 @@ public class Dollar {
         return new ArrayIterable<>(x);
     }
 
-    public static <X,Y> TidyIterable<Pair<X,Y>> $(final Map<X,Y> that) {
-        return $(that.entrySet()).map(e->new Pair<>(e.getKey(), e.getValue()));
+    public static <X,Y> PairIterable<X,Y> $(final Map<X,Y> that) {
+        return $(that.entrySet()).mapPair(Map.Entry::getKey, Map.Entry::getValue);
     }
 
     public static TidyIterable<String> $(Path path) {
@@ -66,13 +66,13 @@ public class Dollar {
         return new RangeIterable(start, skip, stop);
     }
 
-    public static <X,Y> TidyIterable<Pair<X,Y>> $(Iterable<X> x, Iterable<Y> y) {
+    public static <X,Y> PairIterable<X,Y> $(Iterable<X> x, Iterable<Y> y) {
         return new Zip2Iterable<>(x,y);
     }
 
     public static <X,Y,Z> TidyIterable<Trio<X,Y,Z>> $(Iterable<X> x, Iterable<Y> y, Iterable<Z> z) {
         return new Zip3Iterable<>(x,y,z);
-    };
+    }
 
     @SafeVarargs
     public static <X> TidyIterable<X> $$(X... xs) {

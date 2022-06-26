@@ -36,16 +36,26 @@ public class TestEnumerate {
 
     @Test
     public void fluentCountersPlus2() {
-        var dd = asMap($("words4me").enumerate(2).map(Pair::reverse));
-        assertEquals(2,dd.get('w'));
-        assertEquals(3,dd.get('o'));
-        assertEquals(4,dd.get('r'));
-        assertEquals(5,dd.get('d'));
-        assertEquals(6,dd.get('s'));
-        assertEquals(7,dd.get('4'));
-        assertEquals(8,dd.get('m'));
-        assertEquals(9,dd.get('e'));
+        var dd = $("words4me").enumerate(2).mapPair(Pair::reverse).toMap();
+        assertEquals(2L,dd.get('w'));
+        assertEquals(3L,dd.get('o'));
+        assertEquals(4L,dd.get('r'));
+        assertEquals(5L,dd.get('d'));
+        assertEquals(6L,dd.get('s'));
+        assertEquals(7L,dd.get('4'));
+        assertEquals(8L,dd.get('m'));
+        assertEquals(9L,dd.get('e'));
     }
+
+    @Test
+    public void fluentCountersFiltered() {
+        var dd = $("words4me").enumerate().filter(x->x.left()%2 ==0).toMap();
+        assertEquals('w',dd.get(0L));
+        assertEquals('r',dd.get(2L));
+        assertEquals('s',dd.get(4L));
+        assertEquals('m',dd.get(6L));
+    }
+
 
     @Test
     public void offset() {

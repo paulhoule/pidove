@@ -5,7 +5,7 @@ import com.ontology2.pidove.util.Pair;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class EnumerateIterable<X> implements TidyIterable<Pair<Long, X>> {
+class EnumerateIterable<X> implements PairIterable<Long, X> {
     private final Iterable<X> values;
     private final long start;
 
