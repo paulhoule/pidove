@@ -133,4 +133,12 @@ public interface TidyIterable<X> extends Iterable<X> {
         return new AccumulateIterable<>(func, this);
     }
 
+    default TidyIterable<X> cycle() {
+        return new CycleIterable<>(this);
+    }
+
+    default TidyIterable<X> cycle(int times) {
+        return new FiniteCycleIterable<>(times, this);
+    }
+
 }

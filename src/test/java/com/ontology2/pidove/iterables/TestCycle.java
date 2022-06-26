@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.ontology2.pidove.iterables.Dollar.$;
 import static com.ontology2.pidove.iterables.Fixtures.closeSpy;
 import static com.ontology2.pidove.iterables.Iterables.*;
 import static com.ontology2.pidove.iterables.MoreCollectors.characters;
@@ -21,7 +22,7 @@ public class TestCycle {
 
     @Test
     public void cycleOne() {
-        var x = cycle(List.of('*'));
+        var x = $(List.of('*')).cycle();
         var s=collect(characters(), limit(5,x));
         assertEquals("*****", s);
     }
@@ -47,7 +48,7 @@ public class TestCycle {
 
     @Test
     public void itRepeatsItself() {
-        var x = closeSpy(Iterables.cycle(15, List.of('=')));
+        var x = closeSpy($(List.of('=')).cycle(15));
         var s=collect(characters(), x);
         assertEquals("===============", s);
         assert(x.isBalanced());
