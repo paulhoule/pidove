@@ -1,5 +1,6 @@
 package com.ontology2.pidove.iterables;
 
+import com.ontology2.pidove.util.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -50,7 +51,20 @@ public class TestLimit {
         var aList=List.of(1,2,3,4,5);
         assertEquals(List.of(), asList(skip(100, aList)));
         equalItemsAssert($(aList).skip(2), 3,4,5);
+    }
 
+    @Test
+    public void testSkipFluentPair() {
+        var aList=List.of('a','b','c','d','e');
+        var bList = $(aList).enumerate().skip(3);
+        equalItemsAssert($(bList), Pair.of(3L,'d'), Pair.of(4L, 'e'));
+    }
+
+    @Test
+    public void testLimitFluentPair() {
+        var aList=List.of('a','b','c','d','e');
+        var bList = $(aList).enumerate().limit(2);
+        equalItemsAssert($(bList), Pair.of(0L,'a'), Pair.of(1L, 'b'));
     }
 
 }
